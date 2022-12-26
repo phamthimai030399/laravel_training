@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 Route::controller(UserController::class)->group(function () {
     Route::get('/admin/user', 'list')->name('admin.user');
-    Route::get('/admin/user/create', 'getCreate')->name('user.create');
+    Route::get('/admin/user/create', 'create')->name('user.create');
     Route::post('/admin/user/create', 'postCreate');
-    Route::get('/admin/user/update/{id}', 'getUpdate')->name('users.update');
+    Route::get('/admin/user/update/{id}', 'update')->name('users.update');
     Route::post('/admin/user/update/{id}', 'postUpdate');
-    Route::get('/admin/user/delete/{id}', 'getDelete')->name('users.delete');
+    Route::get('/admin/user/delete/{id}', 'delete')->name('users.delete');
 });
 Route::controller(AuthController::class)->group(function () {
     Route::get('/admin/register', 'getRegister')->name('admin.register');

@@ -17,7 +17,7 @@ class UserController extends Controller
         $data['users'] = $this->userService->getUser();
         return view('cms.user.index', $data);
     }
-    public function getCreate()
+    public function create()
     {
         return view('cms.user.create');
     }
@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         return $this->userService->create($request);
     }
-    public function getUpdate($id)
+    public function update($id)
     {
         $data['item'] = $this->userService->getUserById($id);
         return view('cms.user.update', $data);
@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         return $this->userService->update($id, $request);
     }
-    public function getDelete($id, Request $request)
+    public function delete($id, Request $request)
     {
         return $this->userService->delete($id);
     }
