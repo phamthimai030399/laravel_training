@@ -42,6 +42,11 @@
                                 </td>
                                 <td class="action">
                                     <a href="" class=""></a>
+                                    @if ($item->is_active == 0)
+                                    <span style="color: brown">Chưa các thực</span>
+                                    @else 
+                                    <span style="color: darkgreen">Đã xác thực</span>
+                                    @endif
                                 </td>
 
                                 <td class="text-center">

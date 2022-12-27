@@ -21,6 +21,8 @@ class Token extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'value',
         'user_id',
+        'email',
+        'is_active',
         'expried_at',
         'type',
     ];

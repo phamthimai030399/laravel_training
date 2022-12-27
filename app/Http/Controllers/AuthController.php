@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailNotify;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -34,11 +36,14 @@ class AuthController extends Controller
     }
     public function verifyRegister($token)
     {
-        $token = $this->userService->getToken($token);
-        if (!empty($token)) {
-            
-        }
-        //kiem tra neu token khong empty thì update cho user is_Active = 1;
+        $token = $this->userService->verifyToken($token);
         return view('verify_register', ['token' => $token]);
+    }
+    public function confirmEmail()
+    {
+        return view('change_password');
+    }
+    public function changePassword()
+    {
     }
 }

@@ -84,14 +84,9 @@
                                         </div>
                                     @endforeach
                                 @endif
-                                @if (Session::has('messageCreate'))
+                                @if (Session::has('message'))
                                     <div class="input-group mb-3">
-                                        <span class="text-danger">{{ Session::get('messageCreate') }}</span>
-                                    </div>
-                                @endif
-                                @if (Session::has('messageValidation'))
-                                    <div class="input-group mb-3">
-                                        <span class="text-danger">{{ Session::get('messageValidation') }}</span>
+                                        <span class="text-danger">{{ Session::get('message') }}</span>
                                     </div>
                                 @endif
                                 <div class="row">

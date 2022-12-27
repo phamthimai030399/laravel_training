@@ -67,11 +67,19 @@
                                             nhập</button>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <a href="{{ route('admin.register') }}">Đăng kí tài khoản</a>
+                                        <a href="{{route('admin.change_password')}}">Quên mật khẩu</a>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                        <hr>
+                        <div>
+                            <div class="row">
+                                <a href="{{ route('admin.register') }}" class="col-12 text-center">
+                                    <button class="btn btn-success">Đăng kí tài khoản</button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,4 +87,5 @@
     </div>
     <script src="{{ url('cms/js/coreui/coreui.bundle.min.js') }}"></script>
 </body>
+
 </html>

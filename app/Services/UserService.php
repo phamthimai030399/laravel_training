@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use App\Jobs\SendEmail;
+use App\Mail\MailNotify;
+use App\Models\User;
 use App\Repositories\Token\TokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
@@ -29,7 +33,7 @@ class UserService
         $rules = [
 
             'username' => 'required',
-            'password' => 'required', //Dữ liệu bắt buộc phải được nhập, không được để trống.
+            'password' => 'required',
         ];
         $messages = [
             'username.required' => 'Vui lòng nhập tên tài khoản',
@@ -42,13 +46,20 @@ class UserService
             return back()->withErrors($validator->errors()->first());
         } else {
             if (Auth::attempt($input)) {
-                //kiem tra them dieu kiện dã xác thực hay chưa
-                return redirect(route('admin.user'))->with('message', $messageSuccess);
+                if (Auth::user()->is_active == 1) {
+                    return redirect(route('admin.user'))->with('message', $messageSuccess);
+                } else {
+                    $message = [
+                        'content' => 'Tài khoản chưa xác thực. Vui lòng xác thực trước khi đăng nhập.'
+                    ];
+                }
             } else {
-                Session::flash('message', 'Đăng nhập không thành công.');
+                $message = [
+                    'content' => 'Đăng nhập không thành công.'
+                ];
             }
         }
-        return back()->withInput();
+        return back()->withInput()->with('message', $message);
     }
 
     public function register($request)
@@ -71,11 +82,9 @@ class UserService
         if ($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator->errors()->first());
         } else {
-            //them ỏ csdl trường is_Active và mặc định đăng ký là chưa active để khi login check
             $data = $request->only('username', 'password', 'email', 'phone');
             $data['password'] = Hash::make($data['password']);
             $user =  $this->userRepository->create($data);
-            //tao token
             $dataToken = [
                 'value' => Str::random(10),
                 'user_id' => $user->id,
@@ -83,14 +92,25 @@ class UserService
             ];
             $token = $this->tokenRepository->create($dataToken);
             //gui email
+            $message = [
+                'type' => 'Delete task',
+                'content' => 'has been deleted!',
+            ];
+            Mail::to($user->email)->send(new MailNotify([
+                'url' => route('users.verify', $token->value),
+            ]));
             if ($user && $token) {
-                // Session::flash('messageCreate', 'Đăng ký thành công. Vui lòng đăng nhập');
-                return redirect('admin/login');
+                $message = [
+                    'content' => 'Đăng kí tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'
+                ];
+                return redirect('admin/login')->with('message', $message);
             } else {
-                // Session::flash('message', 'Đăng ký không thành công.');
+                $message = [
+                    'content' => 'Đăng kí tài khoản không thành công.'
+                ];
             }
         }
-        return back()->withInput();
+        return back()->withInput()->with('message', $message);
     }
 
     public function getUser()
@@ -201,9 +221,14 @@ class UserService
         ];
         return redirect()->route('admin.login')->with('message' , $messageSuccess);
     }
-    public function getToken($token)
+    public function verifyToken($token)
     {
         $data = $this->tokenRepository->getByField('value', $token);
-        return count($data) == 1 ? $data[0] : null;
+        $token = null;
+        if (count($data) == 1) {
+            $token = $data[0];
+            $this->userRepository->update($token->user_id, ['is_active' => 1]);
+        }
+        return $token;
     }
 }
