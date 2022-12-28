@@ -21,17 +21,17 @@
                             <div class="card-body">
                                 <h4 class="text-center mb-4">Nhập email xác minh tài khoản</h4>
                                 <div class="input-group mb-3">
-                                    <input class="form-control" name="email" type="email" placeholder="Email xác minh"
+                                    <input class="form-control" name="email" type="text" placeholder="Email xác minh"
                                         value="">
                                 </div>
-                                {{-- @if ($errors->any())
+                                @if ($errors->any())
                                     @foreach ($errors->all() as $error)
                                         <div>
                                             <span class="text-danger">(*)</span>
                                             {{ $error }}
                                         </div>
                                     @endforeach
-                                @endif --}}
+                                @endif
                                 {{-- @if (Session::has('message'))
                                     <div class="input-group mb-3">
                                         <span class="text-danger">{{ Session::get('message')['content'] }}</span>

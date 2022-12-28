@@ -12,13 +12,20 @@
 
 <body class="c-app flex-row align-items-center">
     <div class="container">
-        <div>
-            <h2>Xác thực tài khoản</h2> 
-            <p>Bạn vui lòng click vào link bên dưới :</p>
-            <p> <a href="{{$data['url']}}">{{$data['url']}}</a></p>
-         </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card-group mb-5">
+                    <div class="card p-4 text-center">
+                        <p>Vui lòng xác nhận email và làm theo hướng dẫn để đặt lại mật khẩu</p>
+                        <a href="{{route('admin.login')}}">Trở lại trang đăng nhập</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     </div>
     <script src="{{ url('cms/js/coreui/coreui.bundle.min.js') }}"></script>
 </body>
+
 
 </html>

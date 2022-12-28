@@ -33,10 +33,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/admin/login', 'postLogin');
     Route::get('/admin/logout', 'logout')->name('users.logout');
     Route::get('/verify-register/{token}', 'verifyRegister')->name('admin.verify');
-    Route::get('admin/change-password', 'confirmEmail')->name('admin.change_password');
-    // Route::post('/change-password', 'changePassword')->name('admin.change_password');
+    Route::get('/verify-change-password/{token}', 'verifyChangePassword')->name('admin.verify_change_password');
+    Route::post('/verify-change-password/{token}', 'postVerifyChangePassword')->name('admin.post_verify_change_password');
+    Route::get('/admin/forgot-password', 'confirmEmail')->name('admin.forgot_password');
+    Route::post('/admin/forgot-password', 'forgotPassword'); 
 });
 
-// Route::get('admin/change-password', function () {
-//     return view('change_password');
+// Route::get('/', function () {
+//     return view('verify_change_password');
 // });

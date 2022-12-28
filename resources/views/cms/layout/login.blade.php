@@ -67,7 +67,7 @@
                                             nhập</button>
                                     </div>
                                     <div class="col-12 text-center">
-                                        <a href="{{route('admin.change_password')}}">Quên mật khẩu</a>
+                                        <a href="{{route('admin.forgot_password')}}">Quên mật khẩu</a>
                                     </div>
                                 </div>
                             </div>

@@ -8,18 +8,22 @@ use App\Models\User;
 use App\Repositories\Token\TokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
+
 class UserService
 {
     protected $userRepository;
-    public function __construct(UserRepositoryInterface $userRepository, TokenRepositoryInterface $tokenRepository)
-    { 
+    protected $tokenRepository;
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        TokenRepositoryInterface $tokenRepository
+    ) {
         $this->userRepository = $userRepository;
         $this->tokenRepository = $tokenRepository;
     }
@@ -44,20 +48,20 @@ class UserService
         $input = $request->only('username', 'password');
         if ($validator->fails()) {
             return back()->withErrors($validator->errors()->first());
-        } else {
-            if (Auth::attempt($input)) {
-                if (Auth::user()->is_active == 1) {
-                    return redirect(route('admin.user'))->with('message', $messageSuccess);
-                } else {
-                    $message = [
-                        'content' => 'Tài khoản chưa xác thực. Vui lòng xác thực trước khi đăng nhập.'
-                    ];
-                }
+        }
+
+        if (Auth::attempt($input)) {
+            if (Auth::user()->is_active == User::USER_ACTIVE) {
+                return redirect(route('admin.user'))->with('message', $messageSuccess);
             } else {
                 $message = [
-                    'content' => 'Đăng nhập không thành công.'
+                    'content' => 'Tài khoản chưa xác thực. Vui lòng xác thực trước khi đăng nhập.'
                 ];
             }
+        } else {
+            $message = [
+                'content' => 'Đăng nhập không thành công.'
+            ];
         }
         return back()->withInput()->with('message', $message);
     }
@@ -66,7 +70,7 @@ class UserService
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|unique:users|max:255', //unique:users Dữ liệu nhập phải là duy nhất trong bảng users
-            'email' => 'required|email',
+            'email' => 'required|unique:users|email',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:11',
             'password' => 'required', //Dữ liệu bắt buộc phải được nhập, không được để trống.
             're_password' => 'required_with:password|same:password' //Dữ liệu nhập là bắt buộc và phải chứa ít nhất các giá trị password => sai rồi, phải là nó bắt buộc nếu tồn tại password
@@ -82,29 +86,35 @@ class UserService
         if ($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator->errors()->first());
         } else {
-            $data = $request->only('username', 'password', 'email', 'phone');
-            $data['password'] = Hash::make($data['password']);
-            $user =  $this->userRepository->create($data);
-            $dataToken = [
-                'value' => Str::random(10),
-                'user_id' => $user->id,
-                'type' => 'register'
-            ];
-            $token = $this->tokenRepository->create($dataToken);
-            //gui email
-            $message = [
-                'type' => 'Delete task',
-                'content' => 'has been deleted!',
-            ];
-            Mail::to($user->email)->send(new MailNotify([
-                'url' => route('users.verify', $token->value),
-            ]));
-            if ($user && $token) {
-                $message = [
-                    'content' => 'Đăng kí tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'
+            DB::beginTransaction();
+            try {
+                //code...
+                $data = $request->only('username', 'password', 'email', 'phone');
+                $data['password'] = Hash::make($data['password']);
+                $user =  $this->userRepository->create($data);
+                $dataToken = [
+                    'value' => Str::random(10),
+                    'user_id' => $user->id,
+                    'type' => 'register'
                 ];
-                return redirect('admin/login')->with('message', $message);
-            } else {
+                $token = $this->tokenRepository->create($dataToken);
+                //gui email
+                Mail::to($user->email)->send(new MailNotify([
+                    'url' => route('users.verify', $token->value),
+                ]));
+                if ($user && $token) {
+                    $message = [
+                        'content' => 'Đăng kí tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'
+                    ];
+                    return redirect('admin/login')->with('message', $message);
+                } else {
+                    $message = [
+                        'content' => 'Đăng kí tài khoản không thành công.'
+                    ];
+                }
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollBack();
                 $message = [
                     'content' => 'Đăng kí tài khoản không thành công.'
                 ];
@@ -128,7 +138,7 @@ class UserService
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|unique:users|max:255',
-            'email' => 'required|email',
+            'email' => 'required|unique:users|email',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:11',
             'password' => 'required',
             're_password' => 'required_with:password|same:password'
@@ -144,7 +154,7 @@ class UserService
                 'type'    => 'error',
                 'content' => 'Thêm tài khoản không thành công.'
             ];
-            return back()->withInput()->withErrors($validator->errors())->with('message', $message);
+            return back()->withInput()->withErrors($validator->errors()->first())->with('message', $message);
         } else {
             $data = $request->only('username', 'password', 'email', 'phone');
             $data['password'] = Hash::make($data['password']);
@@ -165,7 +175,7 @@ class UserService
     public function update($id, $request)
     {
         $rules = [
-            'email' => 'required|email',
+            'email' => 'required|unique:users|email',
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:11',
         ];
         $messages = [
@@ -209,7 +219,6 @@ class UserService
             return redirect(route('admin.user'))->with('message', $messageSuccess);
         } else {
             return back()->with('message', $messageError);
-
         }
     }
     public function logOut()
@@ -219,16 +228,94 @@ class UserService
             'type'    => 'success',
             'content' => 'Đăng xuất thành công.'
         ];
-        return redirect()->route('admin.login')->with('message' , $messageSuccess);
+        return redirect()->route('admin.login')->with('message', $messageSuccess);
     }
     public function verifyToken($token)
     {
         $data = $this->tokenRepository->getByField('value', $token);
-        $token = null;
+        $tokenObj = null;
         if (count($data) == 1) {
-            $token = $data[0];
-            $this->userRepository->update($token->user_id, ['is_active' => 1]);
+            $tokenObj = $data[0];
+            $timeToken = time() - strtotime($tokenObj->created_at);
+            $tokenObj->is_expried = $timeToken > 60 * 10 ? true : false;
+            $this->userRepository->update($tokenObj->user_id, ['is_active' => 1]);
         }
-        return $token;
+        return $tokenObj;
+    }
+
+    public function forgotPassword($request)
+    {
+        $rules = [
+            'email' => 'required|email',
+        ];
+        $messages = [
+            'email.*' => 'Địa chỉ email không hợp lệ',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $result = [
+                'status' => false,
+                'message' => $validator->errors()->first(),
+            ];
+        } else {
+            $user = $this->userRepository->getOneByField('email', $request->email);
+            if ($user) {
+                $dataToken = [
+                    'value' => Str::random(10),
+                    'user_id' => $user->id,
+                    'type' => 'change_password'
+                ];
+                $token = $this->tokenRepository->create($dataToken);
+                Mail::to($user->email)->send(new MailNotify([
+                    'url' => route('admin.verify_change_password', $token->value),
+                ]));
+                $result = [
+                    'status' => true,
+                    'message' => 'Quên mật khẩu thành công',
+                ];
+            } else {
+                $result = [
+                    'status' => false,
+                    'message' => 'Quên mật khẩu thất bại',
+                ];
+            }
+        }
+        return $result;
+    }
+    public function postVerifyChangePassword($token, $request)
+    {
+        $rules = [
+            'password' => 'required',
+            're_password' => 'required_with:password|same:password',
+        ];
+        $messages = [
+            'password.*' => 'Vui lòng nhập mật khẩu',
+            're_password.*' => 'Mật khẩu không khớp. Vui lòng kiểm tra lại.',
+        ];
+        $messageError = [
+            'content' => 'Thay đổi mật khẩu không thành công. Vui lòng kiểm tra lại.'
+        ];
+        $messageSuccess = [
+            'content' => 'Thay đổi mật khẩu thành công.'
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator->errors()->first());
+        }
+        $data = $request->only('password');
+        $tokenObj = $this->tokenRepository->getOneByField('value', $token);
+        $timeToken = time() - strtotime($tokenObj->created_at);
+        if ($timeToken > 10 * 60) {
+            return redirect(route('admin.forgot_password'))->withErrors('Token đã hết hạn. Vui lòng thao tác lại');
+        }
+        $user = $this->userRepository->getById($tokenObj->user_id);
+        $data['password'] = Hash::make($data['password']);
+        $result = $this->userRepository->update($user['id'], ['password' => $data['password']]);
+        if ($result) {
+            return redirect(route('admin.login'))->with('message', $messageSuccess);
+        } else {
+            return back()->withInput()->with('message', $messageError);
+        }
     }
 }

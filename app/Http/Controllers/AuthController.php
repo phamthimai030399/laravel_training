@@ -39,11 +39,27 @@ class AuthController extends Controller
         $token = $this->userService->verifyToken($token);
         return view('verify_register', ['token' => $token]);
     }
+    public function verifyChangePassword($token)
+    {
+        $token = $this->userService->verifyToken($token);
+        return view('verify_change_password', ['token' => $token]);
+    }
+    public function postVerifyChangePassword($token, Request $request){
+        return $this->userService->postVerifyChangePassword($token, $request);
+    }
     public function confirmEmail()
     {
         return view('change_password');
     }
-    public function changePassword()
+    public function forgotPassword(Request $request) 
     {
+        // dd("mai");
+        $result = $this->userService->forgotPassword($request);
+        if($result['status']) {
+            return view('fotgot_password_success', $result);
+        } else {
+            return back()->withErrors($result['message']);
+        }
+        
     }
 }

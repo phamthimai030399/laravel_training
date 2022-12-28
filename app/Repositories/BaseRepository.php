@@ -20,6 +20,10 @@ abstract class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->where($key, $value)->get();
     }
+    public function getOneByField($key, $value)
+    {
+        return $this->model->where($key, $value)->first();
+    }
     public function create($params)
     {
         return $this->model->create($params);

@@ -36,14 +36,14 @@
                                                             placeholder="Nhập vào số điện thoại"
                                                             value="{{ $item->phone }}">
                                                     </div>
-                                                    {{-- @if ($errors->any())
+                                                    @if ($errors->any())
                                                         @foreach ($errors->all() as $error)
                                                             <div>
                                                                 <span class="text-danger">(*)</span>
                                                                 {{ $error }}
                                                             </div>
                                                         @endforeach
-                                                    @endif --}}
+                                                    @endif
                                                     <div class="form-group">
                                                         <span class="text-danger">(*)</span>
                                                         Trường bắt buộc!
