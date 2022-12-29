@@ -24,7 +24,7 @@
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right pt-0">
-                <a class="dropdown-item" href="">
+                <a class="dropdown-item" href="{{route('admin.change_password')}}">
                     <svg class="c-icon mr-2">
                         <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-lock-locked') }}"></use>
                     </svg>

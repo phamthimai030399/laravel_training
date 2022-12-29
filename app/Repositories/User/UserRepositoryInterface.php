@@ -5,4 +5,5 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface UserRepositoryInterface extends BaseRepositoryInterface{
     public function getLogin($username, $password);
+    public function getUsers();
 }

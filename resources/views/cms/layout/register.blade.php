@@ -75,9 +75,7 @@
                                         placeholder="Nhập lại mật khẩu" value="{{ old('re_password') }}">
                                 </div>
                                 @if ($errors->any())
-                                {{-- {{dd($errors)}} --}}
                                     @foreach ($errors->all() as $error)
-                                    {{-- {{dd($error)}} --}}
                                         <div>
                                             <span class="text-danger">(*)</span>
                                             {{ $error}}
@@ -86,7 +84,7 @@
                                 @endif
                                 @if (Session::has('message'))
                                     <div class="input-group mb-3">
-                                        <span class="text-danger">{{ Session::get('message') }}</span>
+                                        <span class="text-danger">{{ Session::get('message')['content'] }}</span>
                                     </div>
                                 @endif
                                 <div class="row">

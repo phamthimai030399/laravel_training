@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authenticate;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,28 +18,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes(['verify' => true]);
-Route::controller(UserController::class)->group(function () {
-    Route::get('/admin/user', 'list')->name('admin.user');
-    Route::get('/admin/user/create', 'create')->name('user.create');
-    Route::post('/admin/user/create', 'postCreate');
-    Route::get('/admin/user/update/{id}', 'update')->name('users.update');
-    Route::post('/admin/user/update/{id}', 'postUpdate');
-    Route::get('/admin/user/delete/{id}', 'delete')->name('users.delete');
-});
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/admin/register', 'getRegister')->name('admin.register');
-    Route::post('/admin/register', 'postRegister');
-    Route::get('/admin/login', 'getLogin')->name('admin.login');
-    Route::post('/admin/login', 'postLogin');
-    Route::get('/admin/logout', 'logout')->name('users.logout');
-    Route::get('/verify-register/{token}', 'verifyRegister')->name('admin.verify');
-    Route::get('/verify-change-password/{token}', 'verifyChangePassword')->name('admin.verify_change_password');
-    Route::post('/verify-change-password/{token}', 'postVerifyChangePassword')->name('admin.post_verify_change_password');
-    Route::get('/admin/forgot-password', 'confirmEmail')->name('admin.forgot_password');
-    Route::post('/admin/forgot-password', 'forgotPassword'); 
+Route::middleware(Authenticate::class)->group(function () {
+    Route::group(['prefix' => 'admin/user'], function () {
+        Route::get('/', [UserController::class, 'list'])->name('admin.user');
+        Route::get('/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('/create', [UserController::class, 'postCreate']);
+        Route::get('/update/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::post('/update/{id}', [UserController::class, 'postUpdate']);
+        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
+        Route::get('/change-password', [UserController::class, 'changePassword'])->name('admin.change_password');
+        Route::post('/change-password', [UserController::class, 'postChangePassword']);
+        Route::get('/logout ', [AuthController::class, 'logout'])->name('users.logout');
+    });
 });
 
-// Route::get('/', function () {
-//     return view('verify_change_password');
-// });
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/register', [AuthController::class, 'getRegister'])->name('admin.register');
+    Route::post('/register', [AuthController::class, 'postRegister']);
+    Route::get('/login', [AuthController::class, 'getLogin'])->name('admin.login');
+    Route::post('/login', [AuthController::class, 'postLogin']);
+    Route::get('/verify-register/{token}', [AuthController::class, 'verifyRegister'])->name('admin.verify');
+    Route::get('/verify-change-password/{token}', [AuthController::class, 'verifyChangePassword'])->name('admin.verify_change_password');
+    Route::post('/verify-change-password/{token}', [AuthController::class, 'postVerifyChangePassword'])->name('admin.post_verify_change_password');
+    Route::get('/forgot-password', [AuthController::class, 'confirmEmail'])->name('admin.forgot_password');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+});
+
+

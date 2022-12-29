@@ -23,4 +23,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->where('password', $password)
             ->first();
     }
+
+    public function getUsers()
+    {
+        return User::query()
+            ->get();
+    }
 }

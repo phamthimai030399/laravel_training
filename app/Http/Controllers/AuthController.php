@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\MailNotify;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -20,7 +21,12 @@ class AuthController extends Controller
     }
     public function postRegister(Request $request)
     {
-        return $this->userService->register($request);
+        $result = $this->userService->register($request);
+        if ($result['status']) {
+            return redirect('admin/login')->with('message', $result);
+        } else {
+            return back()->withInput()->withErrors($result['content']);
+        }
     }
     public function getLogin()
     {
@@ -44,22 +50,22 @@ class AuthController extends Controller
         $token = $this->userService->verifyToken($token);
         return view('verify_change_password', ['token' => $token]);
     }
-    public function postVerifyChangePassword($token, Request $request){
+    public function postVerifyChangePassword($token, Request $request)
+    {
         return $this->userService->postVerifyChangePassword($token, $request);
     }
     public function confirmEmail()
     {
         return view('change_password');
     }
-    public function forgotPassword(Request $request) 
+    public function forgotPassword(Request $request)
     {
-        // dd("mai");
         $result = $this->userService->forgotPassword($request);
-        if($result['status']) {
+        if ($result['status']) {
             return view('fotgot_password_success', $result);
         } else {
             return back()->withErrors($result['message']);
         }
-        
     }
+    
 }

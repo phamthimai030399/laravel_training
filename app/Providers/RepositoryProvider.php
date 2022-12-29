@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Interface\UserRepositoryInterface;
+use App\Repositories\Token\TokenRepository;
+use App\Repositories\Token\TokenRepositoryInterface;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +18,7 @@ class RepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(TokenRepositoryInterface::class, TokenRepository::class);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -37,5 +38,14 @@ class UserController extends Controller
     public function delete($id, Request $request)
     {
         return $this->userService->delete($id);
+    }
+    public function changePassword()
+    {
+        $data['item'] = $this->userService->getUserById(Auth::user()->id);
+        return view('user_change_password', $data);
+    }
+    public function postChangePassword(Request $request)
+    {
+        return $this->userService->postChangePassword($request);
     }
 }
