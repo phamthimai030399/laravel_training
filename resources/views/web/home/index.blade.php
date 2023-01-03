@@ -68,7 +68,7 @@
                     <div class="item-box row">
                         <div class="col-12 text-center py-3">
                             <h3>
-                                <a href="{{ route('web.category.detail', [$item->slug]) }}">
+                                <a href="">
                                     {{ $item->title }}
                                 </a>
                             </h3>

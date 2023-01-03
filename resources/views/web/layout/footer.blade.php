@@ -18,7 +18,7 @@
                 <h3>Các danh mục</h3>
                 <div class="row">
                     @foreach ($categories as $item)
-                        <a href="{{ route('web.category.detail', [$item->slug]) }}"
+                        <a href=""
                             class="col-4">{{ $item->title }}</a>
                     @endforeach
                 </div>

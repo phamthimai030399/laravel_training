@@ -105,7 +105,6 @@ class UserService
                     'url' => route('admin.verify', $token->value),
                 ]));
                 if ($user && $token) {
-                    //ở đây, thành công nó chuyển hướng mất chưa commit
                     $result = [
                         'status' => true,
                         'content' => 'Đăng kí tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'
@@ -120,10 +119,9 @@ class UserService
                 return $result;
             } catch (\Throwable $th) {
                 DB::rollBack();
-                dd();
                 $result = [
                     'status' => false,
-                    'content' => $th->getMessage()
+                    'content' => $th->getMessage() 
                 ];
             }
         }
@@ -182,7 +180,7 @@ class UserService
     public function update($id, $request)
     {
         $rules = [
-            'email' => 'required|unique:users|email',
+            'email' => 'required|email|unique:users,email,'. $id,
             'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:11',
         ];
         $messages = [

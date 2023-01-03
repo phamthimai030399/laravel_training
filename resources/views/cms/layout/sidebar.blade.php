@@ -13,7 +13,7 @@
                     <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-speedometer') }}"></use>
                 </svg>Dashboard</a></li>
         <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-            <a class="c-sidebar-nav-link" href="">
+            <a class="c-sidebar-nav-link" href="{{route('category.index')}}">
                 <svg class="c-sidebar-nav-icon">
                     <use xlink:href="{{ asset('/image/icon-svg/free.svg#cil-library') }}"></use>
                 </svg>

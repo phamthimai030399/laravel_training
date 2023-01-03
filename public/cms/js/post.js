@@ -1,5 +1,5 @@
 $(function() {
-    $('select.category').select2({
+    $('select.'category').select2({
         placeholder: "Lựa chọn danh mục",
         allowClear: true
     });

@@ -49,7 +49,7 @@
                     <div class="dropdown-menu">
                         @foreach ($categories as $item)
                             <a class="dropdown-item"
-                                href="{{ route('web.category.detail', [$item->slug]) }}">{{ $item->title }}</a>
+                                href="">{{ $item->title }}</a>
                         @endforeach
                     </div>
                 </li>

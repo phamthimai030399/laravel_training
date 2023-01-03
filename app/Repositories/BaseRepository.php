@@ -6,10 +6,11 @@ namespace App\Repositories;
 abstract class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
+    protected $limit_default = 2;
 
     public function getList($params = [])
     {
-        return $this->model->get();
+        return $this->model->paginate($this->limit_default);
     }
 
     public function getById($id)

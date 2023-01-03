@@ -6,7 +6,7 @@
             <div class="card-header">
                 Danh mục sản phẩm
                 <div class="card-header-actions pr-1">
-                    <a href="{{route('cms.category.add')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
+                    <a href="{{route('category.create')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
                 </div>
             </div>
             <div class="card-body">
@@ -32,7 +32,8 @@
                     <thead>
                     <tr>
                         <th class="text-center w-5">ID</th>
-                        <th>Tiêu đề</th>
+                        <th>Mã danh mục</th>
+                        <th>Tên danh mục</th>
                         <th class="text-center w-15">Trạng thái</th>
                         <th class="text-center w-15">Thao tác</th>
                     </tr>
@@ -41,21 +42,30 @@
                     @if(!empty($listItem)) @foreach($listItem as $item)
                     <tr>
                         <td class="text-center">{{$item->id}}</td>
-                        <td><a target="_blank" rel="nofollow" href="{{route('web.category.detail', [$item->slug, $item->id])}}">{{$item->title}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->category_code}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->category_name}}</a></td>
                         <td class="action"> 
-                            <a href="{{route('cms.category.changeStatus', ['id' => $item->id, 'status' => $item->status])}}" class="{{($item->status == '1') ? 'btn btn-add' : 'btn btn-danger'}}">{{($item->status == '1') ? 'Active' : 'Deactive'}}</a>
+                            <a href="" class="{{($item->is_active == '1') ? 'btn btn-add' : 'btn btn-danger'}}">{{($item->is_active == '1') ? 'Active' : 'Deactive'}}</a>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-info" href="{{route('cms.category.update', ['id' => $item->id])}}">
+                            <a class="btn btn-info" href="{{route('category.edit', $item->id)}}">
                                 <svg class="c-icon">
                                     <use xlink:href="/image/icon-svg/free.svg#cil-pencil"></use>
                                 </svg>
                             </a>
-                            <a  class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');" href="{{route('cms.category.delete', ['id' => $item->id])}}">
+                            <form action="{{route('category.destroy', $item->id)}}" method="POST" style="display:inline">
+                                @method ('DELETE')
+                                <button class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');">
+                                    <svg class="c-icon text-white">
+                                        <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-trash') }}"></use>
+                                    </svg>
+                                </button>
+                            </form>
+                            {{-- <a  class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');" href="">
                                 <svg class="c-icon text-white">
                                     <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-trash') }}"></use>
                                 </svg>
-                            </a>
+                            </a> --}}
                         </td>
                     </tr>
                     @endforeach @endif
