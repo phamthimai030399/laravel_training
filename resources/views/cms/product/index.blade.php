@@ -4,9 +4,9 @@
 <div class="fade-in">
         <div class="card">
             <div class="card-header">
-                Danh mục sản phẩm
+                Danh sách sản phẩm
                 <div class="card-header-actions pr-1">
-                    <a href="{{route('category.create')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
+                    <a href="{{route('product.create')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
                 </div>
             </div>
             <div class="card-body">
@@ -19,8 +19,8 @@
                         <div class="col-3">
                             <select name="status" class="form-control">
                                 <option value="">All</option>
-                                <option {{ Request::get('status') == '1' ? 'selected' : '' }} value="1">Active</option>
-                                <option {{ Request::get('status') == '0' ? 'selected' : '' }} value="0">Deactive</option>
+                                <option {{ Request::get('status') == '0' ? 'selected' : '' }} value="0">Active</option>
+                                <option {{ Request::get('status') == '1' ? 'selected' : '' }} value="1">Deactive</option>
                             </select>
                         </div>
                         <div class="col-2">
@@ -32,29 +32,34 @@
                     <thead>
                     <tr>
                         <th class="text-center w-5">ID</th>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
                         <th>Mã danh mục</th>
-                        <th>Tên danh mục</th>
+                        <th>Gía sản phẩm</th>
+                        {{-- <th>Ảnh sản phẩm</th> --}}
                         <th class="text-center w-15">Trạng thái</th>
                         <th class="text-center w-15">Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                       
                     @if(!empty($listItem)) @foreach($listItem as $item)
                     <tr>
                         <td class="text-center">{{$item->id}}</td>
-                        <td><a target="_blank" rel="nofollow" href="">{{$item->category_code}}</a></td>
-                        <td><a target="_blank" rel="nofollow" href="">{{$item->category_name}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->product_code}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->product_name}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->category_id}}</a></td>
+                        <td><a target="_blank" rel="nofollow" href="">{{$item->price}}</a></td>
+                        {{-- <td><a target="_blank" rel="nofollow" href="">{{$item->image}}</a></td> --}}
                         <td class="action"> 
-                            <a href="" class="{{($item->is_active == '1') ? 'btn btn-add' : 'btn btn-danger'}}">{{($item->is_active == '1') ? 'Active' : 'Deactive'}}</a>
+                            <a href="" class="{{($item->is_delete == '0') ? 'btn btn-add' : 'btn btn-danger'}}">{{($item->is_delete == '0') ? 'Active' : 'Deactive'}}</a>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-info" href="{{route('category.edit', $item->id)}}">
+                            <a class="btn btn-info" href="{{route('product.edit', $item->id)}}">
                                 <svg class="c-icon">
                                     <use xlink:href="/image/icon-svg/free.svg#cil-pencil"></use>
                                 </svg>
                             </a>
-                            <form action="{{route('category.destroy', $item->id)}}" method="POST" style="display:inline">
+                            <form action="{{route('product.destroy', $item->id)}}" method="POST" style="display:inline">
                                 @method ('DELETE')
                                 <button class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');">
                                     <svg class="c-icon text-white">

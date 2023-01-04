@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Services\CategoryService;
+use App\Services\ProductService;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 
 {
-    protected $categoryService;
-    public function __construct(CategoryService $categoryService)
+    protected $productService;
+    public function __construct(ProductService $productService)
     {
-        $this->categoryService = $categoryService;
+        $this->productService = $productService;
     }
     /**
      * Display a listing of the resource.
@@ -22,8 +22,8 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $data['condition'] = $request->only('keyword', 'status');
-        $data['listItem'] = $this->categoryService->getCategories($data['condition']);
-        return view('cms.category.index', $data);
+        $data['listItem'] = $this->productService->getProduct($data['condition']);
+        return view('cms.product.index', $data);
     }
 
     /**
@@ -33,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('cms.category.create');
+        return view('cms.product.create');
     }
 
     /**
@@ -44,9 +44,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $result = $this->categoryService->create($request);
+        $result = $this->productService->create($request);
         if ($result['status']) {
-            return redirect(route('category.index'))->with('message', $result);
+            return redirect(route('product.index'))->with('message', $result);
         } else {
             return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
         }
@@ -70,8 +70,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category['item'] = $this->categoryService->getCategoryById($id);  
-        return view('cms.category.update', $category);
+        $product['item'] = $this->productService->getProductById($id);  
+        return view('cms.product.update', $product);
     }
 
     /**
@@ -83,9 +83,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $result = $this->categoryService->update($request, $id);
+        $result = $this->productService->update($request, $id);
         if ($result['status']) {
-            return redirect(route('category.index'))->with('message', $result);
+            return redirect(route('product.index'))->with('message', $result);
         } else {
             return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
         }
@@ -99,7 +99,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-       $result = $this->categoryService->delete($id);
+       $result = $this->productService->delete($id);
         return back()->with('message', $result);
     }
 }

@@ -6,7 +6,7 @@ namespace App\Repositories;
 abstract class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
-    protected $limit_default = 2;
+    protected $limit_default = 4;
 
     public function getList($params = [])
     {

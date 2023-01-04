@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\Authenticate;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,7 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::resource('/category', CategoryController::class);
+        Route::resource('/product', ProductController::class);
     });
 });
 
