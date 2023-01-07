@@ -53,7 +53,7 @@ class CategoryController extends Controller
         if ($result) {
             return redirect(route('admin.category.index'))->with('message', Message::success('Thêm danh mục thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Thêm danh mục thất bại'));
+            return back()->withInput()->with('message', Message::error('Thêm danh mục thất bại'));
         }
     }
 
@@ -93,7 +93,7 @@ class CategoryController extends Controller
         if ($result) {
             return redirect(route('admin.category.index'))->with('message', Message::success('Xóa danh mục thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Update danh mục không thành công'));
+            return back()->withInput()->with('message', Message::error('Update danh mục không thành công'));
         }
     }
 

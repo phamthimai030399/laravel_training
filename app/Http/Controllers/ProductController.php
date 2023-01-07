@@ -56,7 +56,7 @@ class ProductController extends Controller
         if ($result) {
             return redirect(route('admin.product.index'))->with('message', Message::success('Thêm sản phẩm thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Thêm sản phẩm không thành công'));
+            return back()->withInput()->with('message', Message::error('Thêm sản phẩm không thành công'));
         }
     }
 
@@ -97,7 +97,7 @@ class ProductController extends Controller
         if ($result) {
             return redirect(route('admin.product.index'))->with('message', Message::success('Update sản phẩm thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Update sản phẩm không thành công'));
+            return back()->withInput()->with('message', Message::error('Update sản phẩm không thành công'));
         }
     }
 

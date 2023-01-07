@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->name('admin')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/register', [AuthController::class, 'getRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'postRegister']);
     Route::get('/login', [AuthController::class, 'getLogin'])->name('login');

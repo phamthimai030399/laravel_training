@@ -39,7 +39,7 @@ class UpdateProductRequest extends FormRequest
         return [
             'product_code.*' => 'Mã sản phẩm không hợp lệ',
             'product_name.*' => 'Vui lòng nhập tên sản phẩm',
-            'price.*' => 'Gía sản phẩm không hợp lệ',
+            'price.*' => 'Giá sản phẩm không hợp lệ',
         ];
     }
     protected function failedValidation(Validator $validator)

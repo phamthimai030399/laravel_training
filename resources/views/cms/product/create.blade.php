@@ -16,26 +16,38 @@
                                         <label>Danh mục <span class="text-danger">(*)</span></label>
                                         <select name="category_id" class="form-control">
                                             @foreach ($categories as $cate)
-                                                <option {{ old('category_id') }} value="{{ $cate->id }}">
+                                                <option {{ old('category_id') == $cate->id ? 'selected' : '' }} value="{{ $cate->id }}">
                                                     {{ $cate->category_name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('category_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Mã sản phẩm <span class="text-danger">(*)</span></label>
                                         <input class="form-control" name="product_code" type="text"
                                             placeholder="Mã sản phẩm" value="{{ old('product_code') }}">
+                                        @error('product_code')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Tên sản phẩm <span class="text-danger">(*)</span></label>
                                         <input class="form-control" name="product_name" type="text"
                                             placeholder="Tên sản phẩm" value="{{ old('product_name') }}">
+                                        @error('product_name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Gía sản phẩm <span class="text-danger">(*)</span></label>
+                                        <label>Giá sản phẩm <span class="text-danger">(*)</span></label>
                                         <input class="form-control" name="price" type="number" placeholder="Gía sản phẩm"
                                             value="{{ old('price') }}">
+                                        @error('price')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     {{-- <div class="form-group">
                                         <label>Ảnh sản phẩm <span class="text-danger">(*)</span></label>
@@ -45,21 +57,12 @@
                                     <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
-                                            <option {{ old('is_delete') }} value="0">Active
+                                            <option {{ old('is_delete') == 1 ? 'selected' : '' }} value="1">Active
                                             </option>
-                                            <option {{ old('is_delete') }} value="1">Deactive
+                                            <option {{ old('is_delete') == 0 ? 'selected' : '' }} value="0">Deactive
                                             </option>
                                         </select>
                                     </div>
-                                    @if ($errors->any())
-                                        @foreach ($errors->all() as $error)
-                                            <div>
-                                                <span class="text-danger">(*)</span>
-                                                {{ $error }}
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    <span class="text-danger">(*) Trường bắt buộc</span>
                                     <div class="form-group float-right">
                                         <button type="submit" class="btn btn-primary">Lưu lại</button>
                                     </div>
