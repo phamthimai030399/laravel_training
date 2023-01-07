@@ -6,7 +6,7 @@
             <div class="card-header">
                 Danh mục sản phẩm
                 <div class="card-header-actions pr-1">
-                    <a href="{{route('category.create')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
+                    <a href="{{route('admin.category.create')}}"><button class="btn btn-primary btn-sm mr-3" type="button">Thêm mới</button></a>
                 </div>
             </div>
             <div class="card-body">
@@ -49,12 +49,12 @@
                             <a href="" class="{{($item->is_active == '1') ? 'btn btn-add' : 'btn btn-danger'}}">{{($item->is_active == '1') ? 'Active' : 'Deactive'}}</a>
                         </td>
                         <td class="text-center">
-                            <a class="btn btn-info" href="{{route('category.edit', $item->id)}}">
+                            <a class="btn btn-info" href="{{route('admin.category.edit', $item->id)}}">
                                 <svg class="c-icon">
                                     <use xlink:href="/image/icon-svg/free.svg#cil-pencil"></use>
                                 </svg>
                             </a>
-                            <form action="{{route('category.destroy', $item->id)}}" method="POST" style="display:inline">
+                            <form action="{{route('admin.category.destroy', $item->id)}}" method="POST" style="display:inline">
                                 @method ('DELETE')
                                 <button class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');">
                                     <svg class="c-icon text-white">

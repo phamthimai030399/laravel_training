@@ -5,7 +5,7 @@
             <main class="c-main">
                 <div class="container-fluid">
                     <div class="fade-in">
-                        <form action="{{ route('user.update', $item->id) }}" method="POST">
+                        <form action="{{ route('admin.user.update', $item->id) }}" method="POST">
                             @method('PUT')
                             <div class="row">
                                 <div class="col-sm-12">

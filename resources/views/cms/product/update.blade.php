@@ -1,7 +1,7 @@
 @extends('cms.layout.index')
 @section('content')
     <div class="fade-in">
-        <form method="post" action="{{ route('product.update', $item->id) }}">
+        <form method="post" action="{{ route('admin.product.update', $item->id) }}">
             @method('PUT')
             <div class="row add-new">
                 <div class="col-sm-12">

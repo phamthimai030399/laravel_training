@@ -2,7 +2,7 @@
 @section('content')
     <div class="fade-in">
         <!-- view này action đến admin/category/form -->
-        <form method="post" action="{{ route('product.store') }}">
+        <form method="post" action="{{ route('admin.product.store') }}">
             <div class="row add-new">
                 <div class="col-sm-12">
                     <div class="card">

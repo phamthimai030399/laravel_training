@@ -5,7 +5,7 @@
             <div class="card-header">
                 DANH SÁCH TÀI KHOẢN
                 <div class="card-header-actions pr-1">
-                    <a class="btn btn-add btn-sm mr-2" href="{{ route('user.create') }}">
+                    <a class="btn btn-add btn-sm mr-2" href="{{ route('admin.user.create') }}">
                         <svg class="c-icon">
                             <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-plus') }}"></use>
                         </svg> Thêm
@@ -50,12 +50,12 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a class="btn btn-info" href="{{ route('user.edit', $item->id) }}">
+                                    <a class="btn btn-info" href="{{ route('admin.user.edit', $item->id) }}">
                                         <svg class="c-icon">
                                             <use xlink:href="/image/icon-svg/free.svg#cil-pencil"></use>
                                         </svg>
                                     </a>
-                                    <form action="{{ route('user.destroy', $item->id) }}" method="POST"
+                                    <form action="{{ route('admin.user.destroy', $item->id) }}" method="POST"
                                         style="display:inline">
                                         @method ('DELETE')
                                         <button class="btn btn-danger"

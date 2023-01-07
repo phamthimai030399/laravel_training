@@ -42,7 +42,7 @@ class AuthController extends Controller
         $data = $request->only('username', 'password');
         $result = $this->userService->checkLogin($data);
         if ($result['type'] && $result['active']) {
-            return redirect(route('user.index'))->with('message', Message::success('Đăng nhập thành công'));
+            return redirect(route('admin.user.index'))->with('message', Message::success('Đăng nhập thành công'));
         } elseif ($result['type'] && empty($result['active'])) {
             return back()->withInput()->with('message', Message::error('Tài khoản chưa xác thực. Vui lòng xác thực email trước khi đăng nhập.'));
         }
@@ -97,7 +97,7 @@ class AuthController extends Controller
     {
         $result = $this->userService->postChangePassword($request->only('password'));
         if ($result) {
-            return redirect(route('user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
+            return redirect(route('admin.user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
         } else {
             return back()->withInput()->with('message', Message::error('Đổi mật khẩu không thành công'));
         }

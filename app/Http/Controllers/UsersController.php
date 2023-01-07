@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $result = $this->userService->postChangePassword($request->only('password'));
         if ($result) {
-            return redirect(route('user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
+            return redirect(route('admin.user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
         } else {
             return back()->withInput()->with('message', Message::error('Đổi mật khẩu không thành công'));
         }

@@ -54,7 +54,7 @@ class ProductController extends Controller
         $data = $request->only('category_id','product_code', 'product_name', 'price', 'is_delete');
         $result = $this->productService->create($data);
         if ($result) {
-            return redirect(route('product.index'))->with('message', Message::success('Thêm sản phẩm thành công'));
+            return redirect(route('admin.product.index'))->with('message', Message::success('Thêm sản phẩm thành công'));
         } else {
             return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Thêm sản phẩm không thành công'));
         }
@@ -95,7 +95,7 @@ class ProductController extends Controller
         $data = $request->only('category_id','category_code', 'category_name', 'is_delete');
         $result = $this->productService->update($data, $id);
         if ($result) {
-            return redirect(route('product.index'))->with('message', Message::success('Update sản phẩm thành công'));
+            return redirect(route('admin.product.index'))->with('message', Message::success('Update sản phẩm thành công'));
         } else {
             return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Update sản phẩm không thành công'));
         }
