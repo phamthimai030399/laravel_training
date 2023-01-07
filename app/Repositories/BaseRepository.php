@@ -10,7 +10,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function getList($params = [])
     {
-        return $this->model->paginate($this->limit_default);
+        return $this->model->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
 
     public function getAll()

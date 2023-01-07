@@ -19,4 +19,8 @@ class Product extends Model
         'is_delete',
         'image',
     ];
+
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

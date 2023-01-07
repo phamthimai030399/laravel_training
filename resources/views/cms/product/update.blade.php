@@ -1,7 +1,7 @@
 @extends('cms.layout.index')
 @section('content')
     <div class="fade-in">
-        <form method="post" action="{{ route('admin.product.update', $item->id) }}">
+        <form method="post" action="{{ route('admin.product.update', $item->id) }}" enctype="multipart/form-data">
             @method('PUT')
             <div class="row add-new">
                 <div class="col-sm-12">
@@ -46,19 +46,27 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Gía sản phẩm <span class="text-danger">(*)</span></label>
-                                        <input class="form-control" name="price" type="text" placeholder="Gía sản phẩm"
+                                        <label>Giá sản phẩm <span class="text-danger">(*)</span></label>
+                                        <input class="form-control" name="price" type="text" placeholder="Giá sản phẩm"
                                             value="{{ old('price') ?? $item->price }}">
                                         @error('price')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label>Ảnh sản phẩm</label>
+                                        <input class="w-100" name="image" type="file"
+                                            value="{{ old('image') }}">
+                                        @error('image')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
-                                            <option {{ (old('is_delete') ?? $item->is_delete) == 1 ? 'selected' : '' }} value="1">Active
+                                            <option {{ (old('is_delete') ?? $item->is_delete) == 0 ? 'selected' : '' }} value="1">Active
                                             </option>
-                                            <option {{ (old('is_delete') ?? $item->is_delete) == 0 ? 'selected' : '' }} value="0">Deactive
+                                            <option {{ (old('is_delete') ?? $item->is_delete) == 1 ? 'selected' : '' }} value="0">Deactive
                                             </option>
                                         </select>
                                     </div>

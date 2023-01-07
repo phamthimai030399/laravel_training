@@ -14,13 +14,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getList($params = [])
     {
-        $query = $this->model->query();
+        $query = $this->model->query()->with('category');
         if (!empty($params['keyword'])) {
             $query->where('product_name', 'LIKE', '%' . $params['keyword'] . '%');
         } 
         if ( isset($params['status'])){
             $query->where('is_delete' ,  $params['status']);
         }
-        return $query->paginate($this->limit_default);
+        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
 }

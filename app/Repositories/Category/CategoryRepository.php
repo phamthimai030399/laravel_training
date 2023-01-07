@@ -21,6 +21,6 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         if ( isset($params['status'])){
             $query->where('is_active' ,  $params['status']);
         }
-        return $query->paginate($this->limit_default);
+        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
 }

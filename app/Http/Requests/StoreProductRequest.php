@@ -31,6 +31,7 @@ class StoreProductRequest extends FormRequest
             'product_code' => 'required|unique:product',
             'product_name' => 'required',
             'price' => 'required|alpha_num',
+            'image' => ['required']
         ];
     }
 
@@ -39,7 +40,8 @@ class StoreProductRequest extends FormRequest
         return [
             'product_code.*' => 'Mã sản phẩm không hợp lệ',
             'product_name.*' => 'Vui lòng nhập tên sản phẩm',
-            'price.*' => 'Gía sản phẩm không hợp lệ',
+            'price.*' => 'Giá sản phẩm không hợp lệ',
+            'image.*' => 'Ảnh sản phẩm không hợp lệ',
         ];
     }
 

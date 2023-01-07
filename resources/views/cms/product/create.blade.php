@@ -2,7 +2,7 @@
 @section('content')
     <div class="fade-in">
         <!-- view này action đến admin/category/form -->
-        <form method="post" action="{{ route('admin.product.store') }}">
+        <form method="post" action="{{ route('admin.product.store') }}" enctype="multipart/form-data">
             <div class="row add-new">
                 <div class="col-sm-12">
                     <div class="card">
@@ -43,9 +43,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Giá sản phẩm <span class="text-danger">(*)</span></label>
-                                        <input class="form-control" name="price" type="number" placeholder="Gía sản phẩm"
+                                        <input class="form-control" name="price" type="number" placeholder="Giá sản phẩm"
                                             value="{{ old('price') }}">
                                         @error('price')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ảnh sản phẩm <span class="text-danger">(*)</span></label>
+                                        <input class="w-100" name="image" type="file"
+                                            value="{{ old('image') }}">
+                                        @error('image')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -57,9 +65,9 @@
                                     <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
-                                            <option {{ old('is_delete') == 1 ? 'selected' : '' }} value="1">Active
+                                            <option {{ (old('is_delete') ?? 1) == 0 ? 'selected' : '' }} value="1">Active
                                             </option>
-                                            <option {{ old('is_delete') == 0 ? 'selected' : '' }} value="0">Deactive
+                                            <option {{ (old('is_delete') ?? 1) == 1 ? 'selected' : '' }} value="0">Deactive
                                             </option>
                                         </select>
                                     </div>
