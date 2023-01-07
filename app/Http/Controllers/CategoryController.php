@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Message;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\CategoryService;
@@ -10,6 +13,7 @@ class CategoryController extends Controller
 
 {
     protected $categoryService;
+    
     public function __construct(CategoryService $categoryService)
     {
         $this->categoryService = $categoryService;
@@ -42,13 +46,14 @@ class CategoryController extends Controller
      * @param Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $result = $this->categoryService->create($request);
-        if ($result['status']) {
-            return redirect(route('category.index'))->with('message', $result);
+        $data = $request->only('category_code', 'category_name', 'is_active');
+        $result = $this->categoryService->create($data);
+        if ($result) {
+            return redirect(route('category.index'))->with('message', Message::success('Thêm danh mục thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
+            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Thêm danh mục thất bại'));
         }
     }
 
@@ -70,7 +75,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category['item'] = $this->categoryService->getCategoryById($id);  
+        $category['item'] = $this->categoryService->getCategoryById($id);
         return view('cms.category.update', $category);
     }
 
@@ -81,13 +86,14 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        $result = $this->categoryService->update($request, $id);
-        if ($result['status']) {
-            return redirect(route('category.index'))->with('message', $result);
+        $data = $request->only('category_code', 'category_name', 'is_active');
+        $result = $this->categoryService->update($data, $id);
+        if ($result) {
+            return redirect(route('category.index'))->with('message', Message::success('Xóa danh mục thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
+            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Update danh mục không thành công'));
         }
     }
 
@@ -99,7 +105,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-       $result = $this->categoryService->delete($id);
-        return back()->with('message', $result);
+        $result = $this->categoryService->delete($id);
+        $message = $result ? Message::success('Xóa danh mục thành công') : Message::error('Xóa danh mục không thành công');
+        return back()->with('message', $message);
     }
 }

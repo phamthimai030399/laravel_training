@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hệ thống quản trị Putom Meal</title>
+    <title>Hệ thống quản trị Vincy</title>
     <link rel="icon" href="{{ asset('image/favicon.jpeg') }}" sizes="32x32">
     <link rel="stylesheet" href="{{ url('cms/css/coreui/coreui.min.css') }}">
     <link rel="stylesheet" href="{{ url('cms/css/app.css?v=' . $VER) }}">

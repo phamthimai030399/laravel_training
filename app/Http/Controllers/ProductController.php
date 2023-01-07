@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Message;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\ProductService;
@@ -10,9 +14,11 @@ class ProductController extends Controller
 
 {
     protected $productService;
-    public function __construct(ProductService $productService)
+    protected $categoryService;
+    public function __construct(ProductService $productService, CategoryService $categoryService)
     {
         $this->productService = $productService;
+        $this->categoryService = $categoryService;
     }
     /**
      * Display a listing of the resource.
@@ -33,7 +39,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('cms.product.create');
+        $data['categories'] = $this->categoryService->getAllCategories();
+        return view('cms.product.create', $data);
     }
 
     /**
@@ -42,13 +49,14 @@ class ProductController extends Controller
      * @param Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $result = $this->productService->create($request);
-        if ($result['status']) {
-            return redirect(route('product.index'))->with('message', $result);
+        $data = $request->only('category_id','product_code', 'product_name', 'price', 'is_delete');
+        $result = $this->productService->create($data);
+        if ($result) {
+            return redirect(route('product.index'))->with('message', Message::success('Thêm sản phẩm thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
+            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Thêm sản phẩm không thành công'));
         }
     }
 
@@ -70,7 +78,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product['item'] = $this->productService->getProductById($id);  
+        $product['item'] = $this->productService->getProductById($id);
+        $product['categories'] = $this->categoryService->getAllCategories();
         return view('cms.product.update', $product);
     }
 
@@ -81,13 +90,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        $result = $this->productService->update($request, $id);
-        if ($result['status']) {
-            return redirect(route('product.index'))->with('message', $result);
+        $data = $request->only('category_id','category_code', 'category_name', 'is_delete');
+        $result = $this->productService->update($data, $id);
+        if ($result) {
+            return redirect(route('product.index'))->with('message', Message::success('Update sản phẩm thành công'));
         } else {
-            return back()->withInput()->withErrors($result['validate_error'])->with('message', $result);
+            return back()->withInput()->withErrors($result['validate_error'])->with('message', Message::error('Update sản phẩm không thành công'));
         }
     }
 
@@ -99,7 +109,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-       $result = $this->productService->delete($id);
-        return back()->with('message', $result);
+        $result = $this->productService->delete($id);
+        $message = $result ? Message::success('Xóa sản phẩm thành công') : Message::error('Xóa sản phẩm không thành công');
+        return back()->with('message', $message);
     }
 }

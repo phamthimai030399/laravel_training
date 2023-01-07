@@ -13,6 +13,16 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
+                                        <label>Danh mục <span class="text-danger">(*)</span></label>
+                                        <select name="category_id" class="form-control">
+                                            @foreach ($categories as $cate)
+                                                <option {{ old('category_id') }} value="{{ $cate->id }}">
+                                                    {{ $cate->category_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Mã sản phẩm <span class="text-danger">(*)</span></label>
                                         <input class="form-control" name="product_code" type="text"
                                             placeholder="Mã sản phẩm" value="{{ old('product_code') }}">
@@ -24,8 +34,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Gía sản phẩm <span class="text-danger">(*)</span></label>
-                                        <input class="form-control" name="price" type="number"
-                                            placeholder="Gía sản phẩm" value="{{ old('price') }}">
+                                        <input class="form-control" name="price" type="number" placeholder="Gía sản phẩm"
+                                            value="{{ old('price') }}">
                                     </div>
                                     {{-- <div class="form-group">
                                         <label>Ảnh sản phẩm <span class="text-danger">(*)</span></label>
@@ -35,19 +45,19 @@
                                     <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
-                                            <option {{ old('is_delete')}} value="0">Active
+                                            <option {{ old('is_delete') }} value="0">Active
                                             </option>
-                                            <option {{ old('is_delete')}} value="1">Deactive
+                                            <option {{ old('is_delete') }} value="1">Deactive
                                             </option>
                                         </select>
                                     </div>
                                     @if ($errors->any())
-                                    @foreach ($errors->all() as $error)
-                                    <div>
-                                        <span class="text-danger">(*)</span>
-                                        {{ $error }}
-                                    </div>
-                                    @endforeach
+                                        @foreach ($errors->all() as $error)
+                                            <div>
+                                                <span class="text-danger">(*)</span>
+                                                {{ $error }}
+                                            </div>
+                                        @endforeach
                                     @endif
                                     <span class="text-danger">(*) Trường bắt buộc</span>
                                     <div class="form-group float-right">

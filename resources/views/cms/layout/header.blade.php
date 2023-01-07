@@ -30,7 +30,7 @@
                     </svg>
                     Đổi mật khẩu
                 </a>
-                <a class="dropdown-item" href="{{route('users.logout')}}">
+                <a class="dropdown-item" href="{{route('user.logout')}}">
                     <svg class="c-icon mr-2">
                         <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-account-logout') }}"></use>
                     </svg>

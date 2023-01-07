@@ -15,11 +15,10 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getList($params = [])
     {
         $query = $this->model->query();
-        if (!empty($params['keyword']) && isset($params['status'])){
-            $query->where('product_name', 'LIKE', '%' . $params['keyword'] . '%')->where('is_delete' ,  $params['status']);
-        } elseif (!empty($params['keyword'])) {
+        if (!empty($params['keyword'])) {
             $query->where('product_name', 'LIKE', '%' . $params['keyword'] . '%');
-        } elseif ( isset($params['status'])){
+        } 
+        if ( isset($params['status'])){
             $query->where('is_delete' ,  $params['status']);
         }
         return $query->paginate($this->limit_default);

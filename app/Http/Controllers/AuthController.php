@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\MailNotify;
+use App\Helpers\Message;
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\VerifyChangePasswordRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -19,26 +23,35 @@ class AuthController extends Controller
     {
         return view('cms.layout.register');
     }
-    public function postRegister(Request $request)
+    public function postRegister(RegisterRequest $request)
     {
-        $result = $this->userService->register($request);
-        if ($result['status']) {
-            return redirect('admin/login')->with('message', $result);
+        $data = $request->only('username', 'email', 'phone', 'password');
+        $result = $this->userService->register($data);
+        if ($result) {
+            return redirect('admin/login')->with('message', Message::success('Đăng ký tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'));
         } else {
-            return back()->withInput()->withErrors($result['content']);
+            return back()->withInput()->with('message', Message::error('Đăng ký tài khoản không thành công'));
         }
     }
     public function getLogin()
     {
         return view('cms.layout.login');
     }
-    public function postLogin(Request $request)
+    public function postLogin(LoginRequest $request)
     {
-        return $this->userService->checkLogin($request);
+        $data = $request->only('username', 'password');
+        $result = $this->userService->checkLogin($data);
+        if ($result['type'] && $result['active']) {
+            return redirect(route('user.index'))->with('message', Message::success('Đăng nhập thành công'));
+        } elseif ($result['type'] && empty($result['active'])) {
+            return back()->withInput()->with('message', Message::error('Tài khoản chưa xác thực. Vui lòng xác thực email trước khi đăng nhập.'));
+        }
+        return back()->withInput()->with('message', Message::error('Đăng nhập không thành công'));
     }
     public function logout()
     {
-        return $this->userService->logout();
+        $this->userService->logout();
+        return redirect('admin/login');
     }
     public function verifyRegister($token)
     {
@@ -50,21 +63,43 @@ class AuthController extends Controller
         $token = $this->userService->verifyToken($token);
         return view('verify_change_password', ['token' => $token]);
     }
-    public function postVerifyChangePassword($token, Request $request)
+    public function postVerifyChangePassword($token, VerifyChangePasswordRequest $request)
     {
-        return $this->userService->postVerifyChangePassword($token, $request);
+        $result = $this->userService->postVerifyChangePassword($token, $request);
+        if ($result['status']) {
+            return redirect('admin/login')->with('message', Message::success('Thay đổi mật khẩu thành công'));
+        } elseif(!empty($result['type']) && $result['type'] == 'expried') {
+            return redirect(route('admin.forgot_password'))
+            ->withErrors('Token đã hết hạn. Vui lòng thao tác lại');
+        } else {
+            return back()->withInput()->with('message', Message::error('Thay đổi mật khẩu không thành công'));
+        }
     }
     public function confirmEmail()
     {
         return view('change_password');
     }
-    public function forgotPassword(Request $request)
+    public function forgotPassword(ForgotPasswordRequest $request)
     {
         $result = $this->userService->forgotPassword($request);
-        if ($result['status']) {
-            return view('fotgot_password_success', $result);
+        if ($result) {
+            return view('fotgot_password_success');
         } else {
-            return back()->withErrors($result['message']);
+            return back()->withErrors('Thao tác không thành công');
+        }
+    }
+    public function changePassword()
+    {
+        $data['item'] = $this->userService->getUserById(Auth::user()->id);
+        return view('user_change_password', $data);
+    }
+    public function postChangePassword(ChangePasswordRequest $request)
+    {
+        $result = $this->userService->postChangePassword($request->only('password'));
+        if ($result) {
+            return redirect(route('user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
+        } else {
+            return back()->withInput()->with('message', Message::error('Đổi mật khẩu không thành công'));
         }
     }
     

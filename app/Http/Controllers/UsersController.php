@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Message;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,34 +17,16 @@ class UserController extends Controller
     {
         $this->userService = $userService;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function list()
     {
         $data['users'] = $this->userService->getUser();
         return view('cms.user.index', $data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('cms.user.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreUserRequest $request)
+    public function postCreate(StoreUserRequest $request)
     {
         $data = $request->only('username', 'password', 'email', 'phone', 'is_active');
         $result = $this->userService->create($data);
@@ -52,38 +36,12 @@ class UserController extends Controller
             return back()->withInput()->with('message', Message::error('Thêm người dùng không thành công'));
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update($id)
     {
         $data['item'] = $this->userService->getUserById($id);
         return view('cms.user.update', $data);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateUserRequest $request, $id)
+    public function postUpdate($id, UpdateUserRequest $request)
     {
         $data = $request->only('email', 'phone');
         $result = $this->userService->update($id, $data);
@@ -93,17 +51,24 @@ class UserController extends Controller
             return back()->withInput()->with('message', Message::error('Update người dùng không thành công'));
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function delete($id, Request $request)
     {
         $result = $this->userService->delete($id);
         $message = $result ? Message::success('Xóa người dùng thành công') : Message::error('Xóa người dùng không thành công');
         return back()->with('message', $message);
+    }
+    public function changePassword()
+    {
+        $data['item'] = $this->userService->getUserById(Auth::user()->id);
+        return view('user_change_password', $data);
+    }
+    public function postChangePassword(ChangePasswordRequest $request)
+    {
+        $result = $this->userService->postChangePassword($request->only('password'));
+        if ($result) {
+            return redirect(route('user.index'))->with('message', Message::success('Đổi mật khẩu thành công'));
+        } else {
+            return back()->withInput()->with('message', Message::error('Đổi mật khẩu không thành công'));
+        }
     }
 }

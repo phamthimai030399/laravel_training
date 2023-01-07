@@ -4,7 +4,7 @@
         <main class="c-main">
             <div class="container-fluid">
                 <div class="fade-in">
-                    <form action="" method="post">
+                    <form action="{{ route('user.store') }}" method="post">
                         {{-- @csrf --}}
                         <div class="row">
                             <div class="col-sm-12">

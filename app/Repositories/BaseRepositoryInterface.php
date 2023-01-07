@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 interface BaseRepositoryInterface {
     public function getList($params = []);
+    public function getAll();
     public function getById($id);
     public function getByField($key, $value);
     public function getOneByField($key, $value);

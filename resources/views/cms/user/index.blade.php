@@ -43,24 +43,28 @@
                                 <td class="action">
                                     <a href="" class=""></a>
                                     @if ($item->is_active == 0)
-                                    <span style="color: brown">Chưa các thực</span>
-                                    @else 
-                                    <span style="color: darkgreen">Đã xác thực</span>
+                                        <span style="color: brown">Chưa các thực</span>
+                                    @else
+                                        <span style="color: darkgreen">Đã xác thực</span>
                                     @endif
                                 </td>
 
                                 <td class="text-center">
-                                    <a class="btn btn-info" href="{{route('users.update', ['id' =>$item->id ])}}">
+                                    <a class="btn btn-info" href="{{ route('user.edit', $item->id) }}">
                                         <svg class="c-icon">
                                             <use xlink:href="/image/icon-svg/free.svg#cil-pencil"></use>
                                         </svg>
                                     </a>
-                                    <a class="btn btn-danger" href="{{route('users.delete',['id' =>$item->id ])}}"
-                                        onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này.')">
-                                        <svg class="c-icon text-white">
-                                            <use xlink:href="/image/icon-svg/free.svg#cil-trash"></use>
-                                        </svg>
-                                    </a>
+                                    <form action="{{ route('user.destroy', $item->id) }}" method="POST"
+                                        style="display:inline">
+                                        @method ('DELETE')
+                                        <button class="btn btn-danger"
+                                            onclick="return confirm('Bạn có chắc muốn xóa bản ghi này không!');">
+                                            <svg class="c-icon text-white">
+                                                <use xlink:href="{{ asset('image/icon-svg/free.svg#cil-trash') }}"></use>
+                                            </svg>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
