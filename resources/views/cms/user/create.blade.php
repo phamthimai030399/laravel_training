@@ -22,6 +22,9 @@
                                                     </label>
                                                     <input class="form-control" name="username" type="text"
                                                         placeholder="Nhập vào tài khoản" value="{{ old('username') }}">
+                                                    @error('username')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -30,6 +33,9 @@
                                                     </label>
                                                     <input class="form-control" name="email" type="email"
                                                         placeholder="Nhập vào email" value="{{ old('email') }}">
+                                                    @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -38,6 +44,9 @@
                                                     </label>
                                                     <input class="form-control" name="phone" type="number"
                                                         placeholder="Nhập vào số điện thoại" value="{{ old('phone') }}">
+                                                        @error('phone')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -46,6 +55,9 @@
                                                     </label>
                                                     <input class="form-control" name="password" type="password"
                                                         placeholder="Nhập vào mật khẩu" value="{{ old('password') }}">
+                                                        @error('password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -54,19 +66,11 @@
                                                     </label>
                                                     <input class="form-control" name="re_password" type="password"
                                                         placeholder="Nhắc lại mật khẩu" value="{{ old('re_password') }}">
+                                                        @error('re_password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
-                                                @if ($errors->any())
-                                                    @foreach ($errors->all() as $error)
-                                                        <div>
-                                                            <span class="text-danger">(*)</span>
-                                                            {{ $error }}
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-                                                <div class="form-group">
-                                                    <span class="text-danger">(*)</span>
-                                                    Trường bắt buộc!
-                                                </div>
+
                                                 <div class="form-group float-right">
                                                     <button class="btn btn-primary" type="submit">Lưu lại</button>
                                                 </div>

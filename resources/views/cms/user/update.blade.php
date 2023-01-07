@@ -30,25 +30,20 @@
                                                         </label>
                                                         <input class="form-control" name="email" type="email"
                                                             placeholder="Nhập vào email" value="{{ $item->email }}">
+                                                            @error('email')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="form-label">Số điện thoại</label>
                                                         <input class="form-control" name="phone" type="number"
                                                             placeholder="Nhập vào số điện thoại"
                                                             value="{{ $item->phone }}">
+                                                            @error('phone')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
-                                                    @if ($errors->any())
-                                                        @foreach ($errors->all() as $error)
-                                                            <div>
-                                                                <span class="text-danger">(*)</span>
-                                                                {{ $error }}
-                                                            </div>
-                                                        @endforeach
-                                                    @endif
-                                                    <div class="form-group">
-                                                        <span class="text-danger">(*)</span>
-                                                        Trường bắt buộc!
-                                                    </div>
+                                                    
                                                     <div class="form-group float-right">
                                                         <button class="btn btn-primary" type="submit">Lưu lại</button>
                                                     </div>
