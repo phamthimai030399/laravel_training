@@ -10,7 +10,15 @@ abstract class BaseRepository implements BaseRepositoryInterface
 
     public function getList($params = [])
     {
-        return $this->model->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
+        $query = $this->model->query();
+        foreach($params as $key => $value) {
+            if (is_array($value) && count($value) == 2) {
+                $query->where($key, $value[0], $value[1]);
+            } else {
+                $query->where($key, $value);
+            }
+        }
+        return $$query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
 
     public function getAll()

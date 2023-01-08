@@ -20,6 +20,10 @@ class CategoryService
     {
         return $this->categoryRepository->getList($params);
     }
+    public function getHomeCategories()
+    {
+        return $this->categoryRepository->getListInHome();
+    }
     public function getAllCategories()
     {
         return $this->categoryRepository->getAll();

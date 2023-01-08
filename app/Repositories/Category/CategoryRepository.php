@@ -23,4 +23,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         }
         return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
+    public function getListInHome()
+    {
+        $query = $this->model->query();
+        $query->with('products', function($q){
+            $q->take(10)->get();
+        });
+        $query->whereHas('products');
+        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->get();
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/', [ClientController::class, 'index'])->name('client.home');
+Route::get('/danh-muc/{id}', [ClientController::class, 'category'])->name('client.category');
+Route::get('/san-pham/{id}', [ClientController::class, 'product'])->name('client.product');
+Route::get('/dang-ky', [ClientAuthController::class, 'viewRegister'])->name('client.view_register');
+Route::post('/dang-ky', [ClientAuthController::class, 'storeRegister'])->name('client.store_register');
+Route::get('/dang-nhap', [ClientAuthController::class, 'viewLogin'])->name('client.view_login');
+Route::post('/dang-nhap', [ClientAuthController::class, 'checkLogin'])->name('client.check_login');
+Route::middleware(Authenticate::class)->group(function () {
+    Route::get('/gio-hang', [ClientController::class, 'cart'])->name('client.cart');
+});
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/register', [AuthController::class, 'getRegister'])->name('register');

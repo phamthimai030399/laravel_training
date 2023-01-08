@@ -11,15 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/e71fd5c678.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ asset('css/vincy.css') }}">
+    <link rel="stylesheet" href="{{ asset('web/css/style.css') }}">
 </head>
 
 <body>
-    @include('header')
+    @include('web.layout.header')
     <div class="container">
         @yield('content')
     </div>
-    @include('footer')
+    @include('web.layout.footer')
 
 </body>
 
