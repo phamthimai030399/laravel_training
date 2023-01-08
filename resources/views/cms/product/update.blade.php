@@ -82,8 +82,4 @@
         </form>
     </div>
 
-    {{-- <script type="text/javascript">
-        var url_ajax_load_product = "{{ route('cms.product.loadAjax') }}";
-    </script>
-    <script src="{{ url('cms/js/product.js') }}"></script> --}}
 @endsection

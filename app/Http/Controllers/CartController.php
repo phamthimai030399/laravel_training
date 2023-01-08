@@ -44,7 +44,7 @@ class CartController extends Controller
     public function updateCart(Request $request)
     {
         $userId = Auth::user()->id;
-        $data = $request->cart;
+        $data = $request['cart'];
         $result = $this->cartService->updateCart($data, $userId);
         if ($result) {
             $message = 'Update giỏ hàng thành công';

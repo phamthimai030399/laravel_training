@@ -82,9 +82,4 @@
             </div>
         </form>
     </div>
-
-    {{-- <script type="text/javascript">
-        var url_ajax_load_category = "{{route('cms.category.loadAjax')}}";
-    </script>
-    <script src="{{url('cms/js/category.js')}}"></script> --}}
 @endsection

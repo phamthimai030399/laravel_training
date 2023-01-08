@@ -13,7 +13,7 @@
                 </div>
                 <div class="section-content">
                     <div class="section-content-listproduct row">
-                        @include('web.list_product')
+                        @include('web.list_product', ['products' => $products])
                     </div>
                 </div>
                 <div class="swaplist-buton">

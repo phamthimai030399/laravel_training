@@ -27,9 +27,12 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         $query = $this->model->query();
         $query->with('products', function($q){
-            $q->take(10)->get();
+            $q->where('is_delete', 0)->take(8)->get();
         });
-        $query->whereHas('products');
+        $query->whereHas('products', function($q) {
+            $q->where('is_delete', 0);
+        });
+        $query->where('is_active', 1);
         return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->get();
     }
 }

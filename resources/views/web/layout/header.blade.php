@@ -16,12 +16,12 @@
                         @php
                             $menus = [
                                 (object) [
-                                    'name' => 'Nam',
-                                    'link' => 'nam',
+                                    'name' => 'Thun dài',
+                                    'link' => '/danh-muc/1',
                                 ],
                                 (object) [
-                                    'name' => 'Nữ',
-                                    'link' => 'nam',
+                                    'name' => 'Thun lửng',
+                                    'link' => '/danh-muc/2',
                                 ],
                                 (object) [
                                     'name' => 'Trẻ em',
