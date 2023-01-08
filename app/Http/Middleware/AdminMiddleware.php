@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckLogin
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
+        if (Auth::guard('admin')->check()) {
             return $next($request);
         } else {
             return redirect(route('admin.login'));

@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\Product\ProductRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class ProductService
 {

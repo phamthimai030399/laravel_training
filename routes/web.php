@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -29,23 +30,24 @@ Route::get('/dang-nhap', [ClientAuthController::class, 'viewLogin'])->name('clie
 Route::post('/dang-nhap', [ClientAuthController::class, 'checkLogin'])->name('client.check_login');
 Route::middleware(Authenticate::class)->group(function () {
     Route::get('/gio-hang', [ClientController::class, 'cart'])->name('client.cart');
+    Route::post('/add-cart', [ClientController::class, 'addCart'])->name('client.add_cart');
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/register', [AuthController::class, 'getRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'postRegister']);
-    Route::get('/login', [AuthController::class, 'getLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'postLogin']);
-    Route::get('/verify-register/{token}', [AuthController::class, 'verifyRegister'])->name('verify');
-    Route::get('/verify-change-password/{token}', [AuthController::class, 'verifyChangePassword'])->name('verify_change_password');
-    Route::post('/verify-change-password/{token}', [AuthController::class, 'postVerifyChangePassword'])->name('post_verify_change_password');
-    Route::get('/forgot-password', [AuthController::class, 'confirmEmail'])->name('forgot_password');
-    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::get('/register', [AdminAuthController::class, 'getRegister'])->name('register');
+    Route::post('/register', [AdminAuthController::class, 'postRegister']);
+    Route::get('/login', [AdminAuthController::class, 'getLogin'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'postLogin']);
+    Route::get('/verify-register/{token}', [AdminAuthController::class, 'verifyRegister'])->name('verify');
+    Route::get('/verify-change-password/{token}', [AdminAuthController::class, 'verifyChangePassword'])->name('verify_change_password');
+    Route::post('/verify-change-password/{token}', [AdminAuthController::class, 'postVerifyChangePassword'])->name('post_verify_change_password');
+    Route::get('/forgot-password', [AdminAuthController::class, 'confirmEmail'])->name('forgot_password');
+    Route::post('/forgot-password', [AdminAuthController::class, 'forgotPassword']);
     
-    Route::middleware(Authenticate::class)->group(function () {
-        Route::get('/change-password', [AuthController::class, 'changePassword'])->name('change_password');
-        Route::post('/change-password', [AuthController::class, 'postChangePassword']);
-        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::middleware(AdminMiddleware::class)->group(function () {
+        Route::get('/change-password', [AdminAuthController::class, 'changePassword'])->name('change_password');
+        Route::post('/change-password', [AdminAuthController::class, 'postChangePassword']);
+        Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::resource('/user', UserController::class);
         Route::resource('/category', CategoryController::class);
         Route::resource('/product', ProductController::class);
