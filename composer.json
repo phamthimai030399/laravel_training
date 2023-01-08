@@ -24,8 +24,8 @@
     },
     "autoload": {
         "files": [
-            "app/Helpers/DatetimeHelper.php",
-            "app/Helpers/CommonHelper.php"
+            "app/Helpers/CommonHelper.php",
+            "app/Helpers/Message.php"
         ],
         "psr-4": {
             "App\\": "app/",

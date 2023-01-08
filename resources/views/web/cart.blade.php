@@ -24,8 +24,8 @@
                                 {{ $cartItem->product->product_code }}
                             </td>
                             <td>{{ $cartItem->product->product_name }}</td>
-                            <td>
-                                <input type="number" value="{{ $cartItem->quantity }}"
+                            <td style="width: 100px">
+                                <input class="form-control" type="number" value="{{ $cartItem->quantity }}"
                                     name="cart[{{ $key }}][quantity]">
                                 <input type="hidden" value='{{ $cartItem->product->id }}'
                                     name="cart[{{ $key }}][product_id]">

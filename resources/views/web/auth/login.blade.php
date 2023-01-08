@@ -23,7 +23,7 @@
                             <span class="text-danger">{{ Session::get('message')['content'] }}</span>
                         </div>
                     @endif
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
                     <a href="{{ route('client.register') }}">Đăng ký tài khoản</a>
                 </form>
             </div>
