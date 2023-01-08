@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
+        // if (Auth::check()) {
             return $next($request);
-        } else {
-            return redirect(route('admin.view_login'));
-        }
+        // } else {
+        //     return redirect(route('client.login'));
+        // }
     }
 
 

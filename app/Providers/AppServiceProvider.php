@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Token\TokenRepositoryInterface::class,
             \App\Repositories\Token\TokenRepository::class
         );
+        $this->app->singleton(
+            \App\Repositories\Cart\CartRepositoryInterface::class,
+            \App\Repositories\Cart\CartRepository::class
+        );
     }
 
     /**

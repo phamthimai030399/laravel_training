@@ -12,13 +12,12 @@
                     <div class="visible-hover">
                         <img src="https://product.hstatic.net/1000362084/product/btd090s21b_311b339c1bc64147a8037eb567c0df0c_large.png"
                             alt="">
-                        <div class="product-image-action">
-                            {{-- <div class="icon-shopping" data-name="{{ $product->name }}" data-id="{{ $product->id }}" data-price="{{ $product->price }}" >
-                                                            <i class="fa-solid fa-bag-shopping"></i>
-                                                        </div> --}}
-                            <div class="icon-search">
-                                <i class="fa fa-search"></i>
-                            </div>
+                        <div class="product-image-action text-center">
+                            @if (Auth::check())
+                                <div class="icon-shopping btn-add-cart" data-product-id="{{ $product->id }}">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

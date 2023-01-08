@@ -12,7 +12,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/e71fd5c678.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('web/css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('web/js/main.js') }}" crossorigin="anonymous"></script>
+    <script>
+        const URL_ADD_CART = "{{ route('client.add_cart') }}";
+    </script>
 </head>
 
 <body>

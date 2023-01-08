@@ -18,7 +18,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
                 $query->where($key, $value);
             }
         }
-        return $$query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
+        return $$query->orderBy($params['orderBy'] ?? 'ids', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
     }
 
     public function getAll()
@@ -37,6 +37,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function getOneByField($key, $value)
     {
         return $this->model->where($key, $value)->first();
+    }
+    public function getOneByParams($params)
+    {
+        $query = $this->model->query();
+        foreach($params as $key => $value) {
+            $query->where($key, $value);
+        }
+        return $query->first();
     }
     public function create($params)
     {

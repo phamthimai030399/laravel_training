@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentRequest;
+use App\Services\CartService;
 use App\Services\CategoryService;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -36,9 +37,12 @@ class ClientController extends Controller
         return view('web.product', $data);
     }
 
-    public function cart($id)
+    public function payment()
     {
-        $data['carts'] = $this->productService->getProductById($id);
-        return view('web.cart', $data);
+        return view('web.payment');
+    }
+    public function submitPayment(PaymentRequest $request)
+    {
+        echo "thanh toán thành công";
     }
 }

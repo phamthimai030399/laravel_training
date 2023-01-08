@@ -39,9 +39,19 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="col-sm-1">
-                    <i class="fa fa-search"></i>
-                    <i class="fa fa-cart-shopping"></i>
+                <div class="col-sm-1 text-right">
+                    @if (Auth::check())
+                        <a href="{{ route('client.cart') }}">
+                            <i class="fa fa-cart-shopping"></i>
+                        </a>
+                        <a href="{{ route('client.logout') }}">
+                            <i class="fa fa-sign-out"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('client.view_login') }}">
+                            <i class="fa fa-user"></i>
+                        </a>
+                    @endif
                 </div>
             </nav>
         </div>

@@ -29,6 +29,9 @@
                                     </div>
                                     <input class="form-control" name="username" type="text" placeholder="Tài khoản"
                                         value="{{ old('username') }}">
+                                        @error('username')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -40,6 +43,9 @@
                                     </div>
                                     <input class="form-control" name="email" type="email" placeholder="Email"
                                         value="{{ old('email') }}">
+                                        @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -51,6 +57,9 @@
                                     </div>
                                     <input class="form-control" name="phone" type="number" placeholder="Phone"
                                         value="{{ old('phone') }}">
+                                        @error('phone')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="input-group mb-4">
                                     <div class="input-group-prepend">
@@ -62,6 +71,9 @@
                                     </div>
                                     <input class="form-control" name="password" type="password" placeholder="Mật khẩu"
                                         value="{{ old('password') }}">
+                                        @error('password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="input-group mb-4">
                                     <div class="input-group-prepend">
@@ -73,15 +85,10 @@
                                     </div>
                                     <input class="form-control" name="re_password" type="password"
                                         placeholder="Nhập lại mật khẩu" value="{{ old('re_password') }}">
+                                        @error('re_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
-                                @if ($errors->any())
-                                    @foreach ($errors->all() as $error)
-                                        <div>
-                                            <span class="text-danger">(*)</span>
-                                            {{ $error}}
-                                        </div>
-                                    @endforeach
-                                @endif
                                 @if (Session::has('message'))
                                     <div class="input-group mb-3">
                                         <span class="text-danger">{{ Session::get('message')['content'] }}</span>

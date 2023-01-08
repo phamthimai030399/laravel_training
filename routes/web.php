@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientAuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,18 +23,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/', [ClientController::class, 'index'])->name('client.home');
-Route::get('/danh-muc/{id}', [ClientController::class, 'category'])->name('client.category');
-Route::get('/san-pham/{id}', [ClientController::class, 'product'])->name('client.product');
-Route::get('/dang-ky', [ClientAuthController::class, 'viewRegister'])->name('client.view_register');
-Route::post('/dang-ky', [ClientAuthController::class, 'storeRegister'])->name('client.store_register');
-Route::get('/dang-nhap', [ClientAuthController::class, 'viewLogin'])->name('client.view_login');
-Route::post('/dang-nhap', [ClientAuthController::class, 'checkLogin'])->name('client.check_login');
-Route::middleware(Authenticate::class)->group(function () {
-    Route::get('/gio-hang', [ClientController::class, 'cart'])->name('client.cart');
-    Route::post('/add-cart', [ClientController::class, 'addCart'])->name('client.add_cart');
+Route::name('client.')->group(function () {
+    Route::get('/', [ClientController::class, 'index'])->name('home');
+    Route::get('/danh-muc/{id}', [ClientController::class, 'category'])->name('category');
+    Route::get('/san-pham/{id}', [ClientController::class, 'product'])->name('product');
+    Route::get('/dang-ky', [ClientAuthController::class, 'viewRegister'])->name('view_register');
+    Route::post('/dang-ky', [ClientAuthController::class, 'storeRegister'])->name('store_register');
+    Route::get('/dang-nhap', [ClientAuthController::class, 'getLogin'])->name('view_login');
+    Route::post('/dang-nhap', [ClientAuthController::class, 'postLogin'])->name('check_login');
+    Route::get('/dang-ky', [ClientAuthController::class, 'getRegister'])->name('register');
+    Route::post('/dang-ky', [ClientAuthController::class, 'postRegister']);
+    Route::middleware(UserMiddleware::class)->group(function () {
+        Route::get('/gio-hang', [CartController::class, 'cart'])->name('cart');
+        Route::post('/gio-hang', [CartController::class, 'updateCart'])->name('update_cart');
+        Route::post('/add-cart', [CartController::class, 'addCart'])->name('add_cart');
+        Route::get('/logout', [ClientAuthController::class, 'logout'])->name('logout');
+    });
 });
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/register', [AdminAuthController::class, 'getRegister'])->name('register');
@@ -43,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/verify-change-password/{token}', [AdminAuthController::class, 'postVerifyChangePassword'])->name('post_verify_change_password');
     Route::get('/forgot-password', [AdminAuthController::class, 'confirmEmail'])->name('forgot_password');
     Route::post('/forgot-password', [AdminAuthController::class, 'forgotPassword']);
-    
+
     Route::middleware(AdminMiddleware::class)->group(function () {
         Route::get('/change-password', [AdminAuthController::class, 'changePassword'])->name('change_password');
         Route::post('/change-password', [AdminAuthController::class, 'postChangePassword']);
