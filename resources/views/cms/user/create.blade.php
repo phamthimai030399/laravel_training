@@ -52,6 +52,9 @@
                                                     <label class="form-label">
                                                         Mật khẩu
                                                         <span class="text-danger">(*)</span>
+
+
+                                                        
                                                     </label>
                                                     <input class="form-control" name="password" type="password"
                                                         placeholder="Nhập vào mật khẩu" value="{{ old('password') }}">
