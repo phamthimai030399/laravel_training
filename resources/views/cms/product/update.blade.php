@@ -64,9 +64,9 @@
                                     <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
-                                            <option {{ (old('is_delete') ?? $item->is_delete) == 0 ? 'selected' : '' }} value="1">Active
+                                            <option {{ (old('is_delete') ?? $item->is_delete) == 0 ? 'selected' : '' }} value="0">Active
                                             </option>
-                                            <option {{ (old('is_delete') ?? $item->is_delete) == 1 ? 'selected' : '' }} value="0">Deactive
+                                            <option {{ (old('is_delete') ?? $item->is_delete) == 1 ? 'selected' : '' }} value="1">Deactive
                                             </option>
                                         </select>
                                     </div>
