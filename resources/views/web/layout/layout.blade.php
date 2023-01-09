@@ -29,5 +29,13 @@
     @include('web.layout.footer')
 
 </body>
+@if (Session::has('message'))
+    <script>
+        @php
+            $message = Session::get('message');
+        @endphp
+        toastr.{{ $message['type'] }}('{{ $message['content'] }}');
+    </script>
+@endif
 
 </html>

@@ -31,17 +31,16 @@ class CartService
     public function addCart($productId)
     {
         try {
-            $product = $this->productRepository->getById($productId);
-            //doạn này không check product tồn tại không để giả gà nhé
             $carts = $this->cartRepository->getCart() ?? [];
-            $check = false;
-            foreach($carts as $cartItem) {
+            $productExist = false;
+            foreach ($carts as $cartItem) {
                 if ($cartItem['product_id'] == $productId) {
-                    $check = true;
+                    $productExist = true;
                     $cartItem['quantity']++;
                 }
             }
-            if (!$check) {
+            if (!$productExist) {
+                $product = $this->productRepository->getById($productId);
                 $carts[] = [
                     'product_id' => $product->id,
                     'product_code' => $product->product_code,
@@ -50,7 +49,7 @@ class CartService
                     'quantity' => 1,
                 ];
             }
-            
+
             $this->cartRepository->putCart($carts);
             return true;
         } catch (\Throwable $th) {
@@ -68,7 +67,8 @@ class CartService
         }
     }
 
-    public function payment($data) {
+    public function payment($data)
+    {
         $carts = $this->cartRepository->getCart();
         $dataOrder = [
             'user_id' => Auth::user()->id,
@@ -86,6 +86,7 @@ class CartService
             DB::commit();
             return true;
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             DB::rollBack();
             return false;
         }

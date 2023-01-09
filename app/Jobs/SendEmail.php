@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Mail\MailNotify;
 use App\Mail\OrderNotify;
 use App\Models\Order;
+use App\Repositories\Order\OrderRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +38,7 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        $order = Order::find($this->orderId)->with('items');
+        $order = Order::find($this->orderId);
         Mail::to($order->email)->send(new OrderNotify([
             'order' => $order,
         ]));

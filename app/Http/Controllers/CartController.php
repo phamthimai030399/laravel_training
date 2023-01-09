@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Message;
 use App\Http\Requests\PaymentRequest;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -46,9 +47,9 @@ class CartController extends Controller
         $data = $request['cart'];
         $result = $this->cartService->updateCart($data);
         if ($result) {
-            $message = 'Update giỏ hàng thành công';
+            $message = Message::success('Update giỏ hàng thành công');
         } else {
-            $message = 'Update giỏ hàng không thành công';
+            $message = Message::success('Update giỏ hàng không thành công');
         }
         return redirect(route('client.cart'))->with('message', $message);
     }
@@ -57,15 +58,15 @@ class CartController extends Controller
     {
         return view('web.payment');
     }
-    public function submitPayment(PaymentRequest $request)
+    public function postPayment (PaymentRequest $request)
     {
         $data = $request->only('fullname', 'email', 'phone', 'address');
         $result = $this->cartService->payment($data);
         if ($result) {
-            $message = 'Thanh toán thành công';
+            $message = Message::success('Thanh toán thành công');
             return redirect(route('client.home'))->with('message', $message);
         } else {
-            $message = 'Thanh toán không thành công';
+            $message = Message::success('Thanh toán không thành công');
             return back()->withInput()->with('message', $message);
         }
     }

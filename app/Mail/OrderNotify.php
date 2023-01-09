@@ -44,7 +44,7 @@ class OrderNotify extends Mailable
    public function build()
    {
        return $this->from('pham82755@gmail.com')
-           ->view('order_notify')
+           ->view('web.order_notify')
            ->subject('Order notify');
    }
 }

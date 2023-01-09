@@ -29,7 +29,7 @@
                             <input type="hidden" value='{{ $cartItem['product_name'] }}'
                                     name="cart[{{ $key }}][product_name]">
                             <td style="width: 100px">
-                                <input class="form-control" type="number" value="{{ $cartItem['quantity'] }}"
+                                <input class="form-control" type="number" min="0" value="{{ $cartItem['quantity'] }}"
                                     name="cart[{{ $key }}][quantity]">
                                 <input type="hidden" value='{{ $cartItem['product_id'] }}'
                                     name="cart[{{ $key }}][product_id]">

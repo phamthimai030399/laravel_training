@@ -17,6 +17,6 @@ class CartRepository implements CartRepositoryInterface
     }
     public function emptyCart()
     {
-        Session::destroy('cart');
+        Session::remove('cart');
     }
 }

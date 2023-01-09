@@ -9,7 +9,6 @@
                 <li data-target="" data-slide-to="0" class="active"></li>
                 <li data-target="" data-slide-to="1"></li>
                 <li data-target="" data-slide-to="2"></li>
-                <li data-target="" data-slide-to="3"></li>
             </ul>
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -17,15 +16,11 @@
                         alt="">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://file.hstatic.net/1000362084/file/banner_fbc4aa91828f42e0936a1e933efbff35.jpg"
+                    <img src="https://file.hstatic.net/1000362084/file/z3745116746525_a54906861d3ab0c5160c4eed5ddb2fdd_68812563593540489036cd172043cdce.jpg"
                         alt="">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://file.hstatic.net/1000362084/file/banner_chinh_1903x1090_56f3fb1894e04dd0842d80515d09ba6c.png"
-                        alt="">
-                </div>
-                <div class="carousel-item">
-                    <img src="https://file.hstatic.net/1000362084/file/banner_fbc4aa91828f42e0936a1e933efbff35.jpg"
+                    <img src="https://file.hstatic.net/1000362084/file/slide__1__0d2d87e9ae054234aa2cafb09e3da531.jpg"
                         alt="">
                 </div>
             </div>
