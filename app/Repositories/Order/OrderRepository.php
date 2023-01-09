@@ -5,8 +5,6 @@ namespace App\Repositories\Order;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Repositories\BaseRepository;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -21,7 +19,6 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         foreach ($data as $item) {
             $orderItem = [
                 'order_id' => $orderId,
-                'user_id' => Auth::user()->id,
                 'product_id' => $item['product_id'],
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],

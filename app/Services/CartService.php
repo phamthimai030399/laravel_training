@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Jobs\SendEmail;
 use App\Repositories\Cart\CartRepositoryInterface;
+use App\Repositories\Order\OrderRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CartService
@@ -69,6 +71,7 @@ class CartService
     public function payment($data) {
         $carts = $this->cartRepository->getCart();
         $dataOrder = [
+            'user_id' => Auth::user()->id,
             'fullname' => $data['fullname'],
             'email' => $data['email'],
             'phone' => $data['phone'],
