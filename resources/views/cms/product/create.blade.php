@@ -57,6 +57,14 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label>Ảnh chi tiết <span class="text-danger">(*)</span></label>
+                                        <input class="w-100" name="image_detail" type="file"
+                                            value="{{ old('image_detail') }}">
+                                        @error('image_detail')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                     {{-- <div class="form-group">
                                         <label>Ảnh sản phẩm <span class="text-danger">(*)</span></label>
                                         <input class="form-control" name="image" type="text"

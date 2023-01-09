@@ -2,9 +2,8 @@
 
 namespace App\Repositories\Cart;
 
-use App\Repositories\BaseRepositoryInterface;
-
-interface CartRepositoryInterface extends BaseRepositoryInterface
+interface CartRepositoryInterface
 {
-    public function getCart($userId);
+    public function getCart();
+    public function putCart($data);
 }

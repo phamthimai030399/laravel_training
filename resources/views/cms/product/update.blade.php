@@ -62,6 +62,14 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
+                                        <label>Ảnh chi tiết</label>
+                                        <input class="w-100" name="image_detail" type="file"
+                                            value="{{ old('image_detail') }}">
+                                        @error('image_detail')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label>Trạng thái <span class="text-danger">(*)</span></label>
                                         <select name="is_delete" class="form-control">
                                             <option {{ (old('is_delete') ?? $item->is_delete) == 0 ? 'selected' : '' }} value="0">Active

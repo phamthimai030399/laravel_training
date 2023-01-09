@@ -21,24 +21,31 @@
                     @foreach ($carts as $key => $cartItem)
                         <tr>
                             <td>
-                                {{ $cartItem->product->product_code }}
+                                {{ $cartItem['product_code'] }}
+                                <input type="hidden" value='{{ $cartItem['product_code'] }}'
+                                    name="cart[{{ $key }}][product_code]">
                             </td>
-                            <td>{{ $cartItem->product->product_name }}</td>
+                            <td>{{ $cartItem['product_name'] }}</td>
+                            <input type="hidden" value='{{ $cartItem['product_name'] }}'
+                                    name="cart[{{ $key }}][product_name]">
                             <td style="width: 100px">
-                                <input class="form-control" type="number" value="{{ $cartItem->quantity }}"
+                                <input class="form-control" type="number" value="{{ $cartItem['quantity'] }}"
                                     name="cart[{{ $key }}][quantity]">
-                                <input type="hidden" value='{{ $cartItem->product->id }}'
+                                <input type="hidden" value='{{ $cartItem['product_id'] }}'
                                     name="cart[{{ $key }}][product_id]">
                             </td>
-                            <td>{{ moneyFormat($cartItem->product->price) }}</td>
-                            <td>{{ moneyFormat($cartItem->product->price * $cartItem->quantity) }}</td>
+                            <td>
+                                {{ moneyFormat($cartItem['price']) }}
+                                <input type="hidden" value='{{ $cartItem['price'] }}'
+                                name="cart[{{ $key }}][price]"></td>
+                            <td>{{ moneyFormat($cartItem['price'] * $cartItem['quantity']) }}</td>
                         </tr>
                     @endforeach
                 </table>
                 <div>Tổng: <span
                         class="text-danger font-weight-bold">{{ moneyFormat(
-                            array_reduce($carts->toArray(), function ($result, $item) {
-                                return $result + $item['quantity'] * $item['product']['price'];
+                            array_reduce($carts, function ($result, $item) {
+                                return $result + $item['quantity'] * $item['price'];
                             }),
                         ) }}</span>
                 </div>

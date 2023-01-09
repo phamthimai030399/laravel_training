@@ -39,6 +39,7 @@
                             <th>Tên sản phẩm</th>
                             <th>Danh mục</th>
                             <th>Ảnh sản phẩm</th>
+                            <th>Ảnh chi tiết</th>
                             <th>Giá sản phẩm</th>
                             {{-- <th>Ảnh sản phẩm</th> --}}
                             <th class="text-center w-15">Trạng thái</th>
@@ -55,7 +56,9 @@
                                     <td><a target="_blank" rel="nofollow"
                                             href="">{{ $item->category->category_name }}</a></td>
                                     <td><img src="{{ $item->image ? asset($item->image) : ''}}" class="img-fluid d-block" id="lbl_img"
-                                            width="100px"></td>
+                                            width="50px"></td>
+                                    <td><img src="{{ $item->image_detail ? asset($item->image_detail) : ''}}" class="img-fluid d-block" id="lbl_img"
+                                            width="50px"></td>
                                     <td><a target="_blank" rel="nofollow" href="">{{ $item->price }}</a></td>
                                     {{-- <td><a target="_blank" rel="nofollow" href="">{{$item->image}}</a></td> --}}
                                     <td class="action">

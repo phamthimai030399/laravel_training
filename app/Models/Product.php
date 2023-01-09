@@ -18,6 +18,7 @@ class Product extends Model
         'price',
         'is_delete',
         'image',
+        'image_detail',
     ];
 
     public function category(){

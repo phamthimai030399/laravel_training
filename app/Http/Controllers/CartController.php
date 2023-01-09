@@ -18,15 +18,14 @@ class CartController extends Controller
     
     public function cart()
     {
-        $data['carts'] = $this->cartService->getCart(Auth::user()->id);
+        $data['carts'] = $this->cartService->getCart() ?? [];
         return view('web.cart', $data);
     }
 
     public function addCart(Request $request)
     {
         $productId = $request['product_id'];
-        $userId = Auth::user()->id;
-        $result = $this->cartService->addCart($productId, $userId);
+        $result = $this->cartService->addCart($productId);
         if ($result) {
             $res = [
                 'message' => 'Thêm giỏ hàng thành công.',
@@ -43,9 +42,8 @@ class CartController extends Controller
 
     public function updateCart(Request $request)
     {
-        $userId = Auth::user()->id;
         $data = $request['cart'];
-        $result = $this->cartService->updateCart($data, $userId);
+        $result = $this->cartService->updateCart($data);
         if ($result) {
             $message = 'Update giỏ hàng thành công';
         } else {

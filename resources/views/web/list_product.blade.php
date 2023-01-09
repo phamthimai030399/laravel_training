@@ -10,7 +10,7 @@
                         </a>
                     </div>
                     <div class="visible-hover">
-                        <img src="{{ asset($product->image);}}"
+                        <img src="{{ asset($product->image_detail);}}"
                             alt="">
                         <div class="product-image-action text-center">
                             @if (Auth::check())

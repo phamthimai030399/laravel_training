@@ -21,6 +21,7 @@ class ProductService
     public function create($data)
     {
         $data['image'] = $this->storeImage($data['image']);
+        $data['image_detail'] = $this->storeImage($data['image_detail']);
         return $this->productRepository->create($data);
     }
 
@@ -35,6 +36,11 @@ class ProductService
             unset($data['image']);
         } else {
             $data['image'] = $this->storeImage($data['image']);
+        }
+        if (empty($data['image_detail'])) {
+            unset($data['image_detail']);
+        } else {
+            $data['image_detail'] = $this->storeImage($data['image_detail']);
         }
         return $this->productRepository->update($id, $data);
     }

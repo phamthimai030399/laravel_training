@@ -2,20 +2,17 @@
 
 namespace App\Repositories\Cart;
 
-use App\Models\Cart;
-use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Session;
 
-class CartRepository extends BaseRepository implements CartRepositoryInterface
+class CartRepository implements CartRepositoryInterface
 {
-    public function __construct(Cart $cart)
-    {
-        $this->model = $cart;
-    }
 
-    public function getCart($userId)
+    public function getCart()
     {
-        $query = $this->model->query()->with('product');
-        $query->where('user_id',  $userId);
-        return $query->get();
+        return Session::get('cart');
+    }
+    public function putCart($data)
+    {
+        return Session::put('cart', $data);
     }
 }

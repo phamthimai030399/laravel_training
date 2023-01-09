@@ -3,76 +3,62 @@
 namespace App\Services;
 
 use App\Repositories\Cart\CartRepositoryInterface;
+use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class CartService
 {
     protected $cartRepository;
+    protected $productRepository;
     public function __construct(
         CartRepositoryInterface $cartRepository,
+        ProductRepositoryInterface $productRepository,
     ) {
         $this->cartRepository = $cartRepository;
+        $this->productRepository = $productRepository;
     }
 
-    public function getCart($userId)
+    public function getCart()
     {
-        return $this->cartRepository->getCart($userId);
+        return $this->cartRepository->getCart();
     }
-    public function addCart($productId, $userId)
+    public function addCart($productId)
     {
-        $cartItem = $this->cartRepository->getOneByParams([
-            'user_id' => $userId,
-            'product_id' => $productId,
-        ]);
-        if ($cartItem) {
-            $result = $this->cartRepository->update($cartItem->id, [
-                'quantity' => $cartItem->quantity + 1
-            ]);
-        } else {
-            $result = $this->cartRepository->create([
-                'user_id' => $userId,
-                'product_id' => $productId,
-                'quantity' => 1
-            ]);
-        }
-        return $result;
-    }
-
-    public function updateCart($data, $userId)
-    {
-        DB::beginTransaction();
         try {
-            $carts = $this->cartRepository->getCart($userId);
-            foreach ($carts as $oldItem) {
-                $cartItem = array_filter($data, function ($item) use ($oldItem) {
-                    return $item['product_id'] == $oldItem->product_id;
-                });
-                if (!empty($cartItem[0])) {
-                    $this->cartRepository->update($oldItem->id, [
-                        'quantity' => $cartItem[0]['quantity']
-                    ]);
-                } else {
-                    $this->cartRepository->delete($oldItem->id);
+            $product = $this->productRepository->getById($productId);
+            //doạn này không check product tồn tại không để giả gà nhé
+            $carts = $this->cartRepository->getCart() ?? [];
+            $check = false;
+            foreach($carts as $cartItem) {
+                if ($cartItem['product_id'] == $productId) {
+                    $check = true;
+                    $cartItem['quantity']++;
                 }
             }
-            foreach ($data as $newItem) {
-                $cartItem = array_filter($carts->toArray(), function ($item) use ($newItem) {
-                    return $newItem['product_id'] == $item['product_id'];
-                });
-                if (empty($cartItem[0])) {
-                    $this->cartRepository->create([
-                        'user_id' => $userId,
-                        'product_id' => $newItem['product_id'],
-                        'quantity' => $newItem['quantity'],
-                    ]);
-                }
+            if (!$check) {
+                $carts[] = [
+                    'product_id' => $product->id,
+                    'product_code' => $product->product_code,
+                    'product_name' => $product->product_name,
+                    'price' => $product->price,
+                    'quantity' => 1,
+                ];
             }
-            $result = true;
-            DB::commit();
+            
+            $this->cartRepository->putCart($carts);
+            return true;
         } catch (\Throwable $th) {
-            DB::rollBack();
-            $result = false;
+            return false;
         }
-        return $result;
+    }
+
+    public function updateCart($data)
+    {
+        try {
+            $this->cartRepository->putCart($data);
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 }
