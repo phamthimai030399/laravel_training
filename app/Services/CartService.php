@@ -71,7 +71,6 @@ class CartService
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th->getMessage());
             $result = false;
         }
         return $result;

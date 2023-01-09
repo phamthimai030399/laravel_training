@@ -70,7 +70,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{-- {{ $users->appends($condition)->links('cms.layout.panigation') }} --}}
+                {{ $users->appends($condition)->links('cms.layout.panigation') }}
                 {{-- {{ $users->links('cms.layout.panigation') }} --}}
             </div>
         </div>

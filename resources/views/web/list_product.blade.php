@@ -5,12 +5,12 @@
                 <div class="prod-img">
                     <div class="visible">
                         <a href="">
-                            <img src="https://product.hstatic.net/1000362084/product/btd090s21a_7bccb3f6491e4172b50b30d99cbd0852_large.png"
+                            <img src="{{ asset($product->image);}}"
                                 alt="">
                         </a>
                     </div>
                     <div class="visible-hover">
-                        <img src="https://product.hstatic.net/1000362084/product/btd090s21b_311b339c1bc64147a8037eb567c0df0c_large.png"
+                        <img src="{{ asset($product->image);}}"
                             alt="">
                         <div class="product-image-action text-center">
                             @if (Auth::check())

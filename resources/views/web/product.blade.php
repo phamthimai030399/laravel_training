@@ -9,7 +9,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-5 text-center border p-3">
-                <img src="https://product.hstatic.net/1000362084/product/btd090s21a_7bccb3f6491e4172b50b30d99cbd0852_large.png"
+                <img src="{{ asset($product->image);}}"
                     alt="" style="height: 400px; width: auto">
             </div>
             <div class="col-7">

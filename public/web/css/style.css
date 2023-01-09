@@ -1,5 +1,5 @@
 body {
-    font-family: "Quicksand", sans-serif;
+    font-family: serif;
     font-size: 14px;
     line-height: 1.45;
     background: #f5f8fd;
@@ -19,6 +19,7 @@ body {
 }
 .swaplist-buton{
     text-transform: uppercase;
+    font-family: serif;
 }
 .navbar-link{
     margin: 12px;

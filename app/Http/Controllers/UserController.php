@@ -23,6 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $data['users'] = $this->userService->getUser();
+        $data['condition'] = [];
         return view('cms.user.index', $data);
     }
 

@@ -13,7 +13,7 @@
             </ul>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://file.hstatic.net/1000362084/file/banner_fbc4aa91828f42e0936a1e933efbff35.jpg"
+                    <img src="https://file.hstatic.net/1000362084/file/z3922927016926_cbf6537dbe5d1295f4397575152aed3c_46aecdc4c85f4c6c9f53f20787d925bb.jpg"
                         alt="">
                 </div>
                 <div class="carousel-item">

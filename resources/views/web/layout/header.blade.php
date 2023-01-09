@@ -24,12 +24,32 @@
                                     'link' => '/danh-muc/2',
                                 ],
                                 (object) [
-                                    'name' => 'Trẻ em',
-                                    'link' => 'nam',
+                                    'name' => 'Short thun',
+                                    'link' => '/danh-muc/3',
                                 ],
                                 (object) [
-                                    'name' => 'Gia đình',
-                                    'link' => 'nam',
+                                    'name' => 'Satin dài',
+                                    'link' => '/danh-muc/4',
+                                ],
+                                (object) [
+                                    'name' => 'Short satin',
+                                    'link' => '/danh-muc/5',
+                                ],
+                                (object) [
+                                    'name' => 'Satin lửng',
+                                    'link' => '/danh-muc/6',
+                                ],
+                                (object) [
+                                    'name' => 'Short kate',
+                                    'link' => '/danh-muc/7',
+                                ],
+                                (object) [
+                                    'name' => 'Kate dài',
+                                    'link' => '/danh-muc/8',
+                                ],
+                                (object) [
+                                    'name' => 'Kate lửng',
+                                    'link' => '/danh-muc/9',
                                 ],
                             ];
                         @endphp
