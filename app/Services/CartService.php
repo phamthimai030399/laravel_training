@@ -79,10 +79,10 @@ class CartService
         ];
         DB::beginTransaction();
         try {
-            $orderId = $this->orderRepository->create($dataOrder);
-            $this->orderRepository->createItem($carts, $orderId);
+            $order = $this->orderRepository->create($dataOrder);
+            $this->orderRepository->createItem($carts, $order->id);
             $this->cartRepository->emptyCart();
-            SendEmail::dispatch($orderId)->onQueue(SendEmail::QUEUE_ORDER_NOTIFY);
+            SendEmail::dispatch($order->id)->onQueue(SendEmail::QUEUE_ORDER_NOTIFY);
             DB::commit();
             return true;
         } catch (\Throwable $th) {
