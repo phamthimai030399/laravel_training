@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentRequest;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,5 +51,22 @@ class CartController extends Controller
             $message = 'Update giỏ hàng không thành công';
         }
         return redirect(route('client.cart'))->with('message', $message);
+    }
+
+    public function payment()
+    {
+        return view('web.payment');
+    }
+    public function submitPayment(PaymentRequest $request)
+    {
+        $data = $request->only('fullname', 'email', 'phone', 'address');
+        $result = $this->cartService->payment($data);
+        if ($result) {
+            $message = 'Thanh toán thành công';
+            return redirect(route('client.home'))->with('message', $message);
+        } else {
+            $message = 'Thanh toán không thành công';
+            return back()->withInput()->with('message', $message);
+        }
     }
 }

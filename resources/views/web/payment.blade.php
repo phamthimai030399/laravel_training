@@ -9,10 +9,10 @@
                 <h3>Thông tin thanh toán</h3>
                 <form method="POST">
                     <div class="form-group">
-                        <label for="username">Tài khoản:</label>
-                        <input type="text" class="form-control" id="username" name="username" required
-                            value="{{ old('username') }}">
-                        @error('username')
+                        <label for="fullname">Họ và tên:</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" required
+                            value="{{ old('fullname') }}">
+                        @error('fullname')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -40,23 +40,6 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="password">Mật khẩu:</label>
-                        <input type="password" class="form-control" id="password" name="password" required
-                            value="">
-                        @error('password')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="re_password">Xác nhận mật khẩu:</label>
-                        <input type="password" class="form-control" id="re_password" name="re_password" required
-                            value="">
-                        @error('re_password')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
                     @if (Session::has('message'))
                         <div class="form-group">
                             <span class="text-danger">{{ Session::get('message')['content'] }}</span>

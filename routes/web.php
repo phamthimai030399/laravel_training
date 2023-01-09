@@ -36,6 +36,8 @@ Route::name('client.')->group(function () {
     Route::middleware(UserMiddleware::class)->group(function () {
         Route::get('/gio-hang', [CartController::class, 'cart'])->name('cart');
         Route::post('/gio-hang', [CartController::class, 'updateCart'])->name('update_cart');
+        Route::get('/thanh-toan', [CartController::class, 'payment'])->name('payment');
+        Route::post('/thanh-toan', [CartController::class, 'postPayment']);
         Route::post('/add-cart', [CartController::class, 'addCart'])->name('add_cart');
         Route::get('/logout', [ClientAuthController::class, 'logout'])->name('logout');
     });

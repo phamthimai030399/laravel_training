@@ -37,12 +37,5 @@ class ClientController extends Controller
         return view('web.product', $data);
     }
 
-    public function payment()
-    {
-        return view('web.payment');
-    }
-    public function submitPayment(PaymentRequest $request)
-    {
-        echo "thanh toán thành công";
-    }
+   
 }

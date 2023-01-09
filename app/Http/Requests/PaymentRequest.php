@@ -29,6 +29,9 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
+            'fullname' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
             'address' => 'required',
         ];
     }
@@ -36,6 +39,9 @@ class PaymentRequest extends FormRequest
     public function messages()
     {
         return [
+            'fullname.required' => 'Họ và tên không được để trống',
+            'email.required' => 'Email không được để trống',
+            'phone.required' => 'Số điện thoại không được để trống',
             'address.required' => 'Địa chỉ không được để trống',
         ];
     }

@@ -51,7 +51,7 @@
                 </div>
                 <div class="text-right w-100">
                     <button type="submit" class="btn btn-primary">Cập nhật giỏ hàng</button>
-                    <a href="" class="btn btn-success">Thanh toán</a>
+                    <a href="{{route('client.payment')}}" class="btn btn-success">Thanh toán</a>
                 </div>
             </form>
         </div>

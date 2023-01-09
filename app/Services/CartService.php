@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendEmail;
 use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
@@ -10,12 +11,15 @@ class CartService
 {
     protected $cartRepository;
     protected $productRepository;
+    protected $orderRepository;
     public function __construct(
         CartRepositoryInterface $cartRepository,
         ProductRepositoryInterface $productRepository,
+        OrderRepositoryInterface $orderRepository,
     ) {
         $this->cartRepository = $cartRepository;
         $this->productRepository = $productRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     public function getCart()
@@ -58,6 +62,28 @@ class CartService
             $this->cartRepository->putCart($data);
             return true;
         } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    public function payment($data) {
+        $carts = $this->cartRepository->getCart();
+        $dataOrder = [
+            'fullname' => $data['fullname'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'address' => $data['address'],
+        ];
+        DB::beginTransaction();
+        try {
+            $orderId = $this->orderRepository->create($dataOrder);
+            $this->orderRepository->createItem($carts, $orderId);
+            $this->cartRepository->emptyCart();
+            SendEmail::dispatch($orderId)->onQueue(SendEmail::QUEUE_ORDER_NOTIFY);
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
             return false;
         }
     }
