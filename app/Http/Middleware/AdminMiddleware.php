@@ -17,7 +17,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::guard('admin')->check()) { //check admin đã được đăng nhập chưa
             return $next($request);
         } else {
             return redirect(route('admin.login'));

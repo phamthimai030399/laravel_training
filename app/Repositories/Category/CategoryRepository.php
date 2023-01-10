@@ -21,7 +21,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         if (isset($params['status'])) {
             $query->where('is_active',  $params['status']);
         }
-        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
+        return $query->orderBy('id', 'DESC')->paginate($this->limit_default);
     }
     public function getListInHome()
     {
@@ -30,7 +30,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             $q->where('is_delete', 0);
         });
         $query->where('is_active', 1);
-        return $query->get()
+        return $query->get() 
             ->map(function ($cate) {
                 $cate->setRelation('products', $cate->products->where('is_delete', 0)->take(4));
                 return $cate;
