@@ -36,4 +36,17 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
                 return $cate;
             });
     }
+    public function getListInCategory($id)
+    {
+        $query = $this->model->query();
+        $query->where(['is_active'=> 1, 'id'=> $id]);
+        $query->whereHas('products', function ($q) {
+            $q->where('is_delete', 0);
+        });
+        return $query->get() 
+            ->map(function ($cate) {
+                $cate->setRelation('products', $cate->products->where('is_delete', 0));
+                return $cate;
+            });
+    }
 }

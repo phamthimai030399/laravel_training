@@ -18,6 +18,7 @@ class ProductService
     {
         return $this->productRepository->getList($params);
     }
+
     public function create($data)
     {
         $data['image'] = $this->storeImage($data['image']);

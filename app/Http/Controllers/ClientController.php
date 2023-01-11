@@ -26,8 +26,7 @@ class ClientController extends Controller
 
     public function category($id)
     {
-        $data['category'] = $this->categoryService->getCategoryById($id);
-        $data['products'] = $this->productService->getProduct(['category_id' => $id, 'limit' => 8]);
+        $data['category'] = $this->categoryService->getListInCategory($id);
         return view('web.category', $data);
     }
 

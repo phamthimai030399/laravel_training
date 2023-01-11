@@ -47,4 +47,8 @@ class CategoryService
     {
         return $this->categoryRepository->delete($id);
     }
+    public function getListInCategory ($id) 
+    {
+        return $this->categoryRepository->getListInCategory($id);
+    }
 }

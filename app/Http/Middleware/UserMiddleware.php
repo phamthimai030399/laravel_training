@@ -20,7 +20,7 @@ class UserMiddleware
         if (Auth::check()) {
             return $next($request);
         } else {
-            return redirect(route('client.login'));
+            return redirect(route('client.home'));
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Mail\MailNotify;
 use App\Models\User;
+use App\Repositories\Cart\CartRepositoryInterface;
 use App\Repositories\Token\TokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Carbon\Carbon;
@@ -19,28 +20,24 @@ class UserService
 {
     protected $userRepository;
     protected $tokenRepository;
+    protected $cartRepository;
     public function __construct(
         UserRepositoryInterface $userRepository,
-        TokenRepositoryInterface $tokenRepository
+        TokenRepositoryInterface $tokenRepository,
+        CartRepositoryInterface $cartRepository 
     ) {
         $this->userRepository = $userRepository;
         $this->tokenRepository = $tokenRepository;
+        $this->cartRepository = $cartRepository;
     }
 
     public function checkLogin($data)
     {
         if (Auth::attempt($data)) {
-            if (Auth::user()->is_active == User::USER_ACTIVE) {
                 $result = [
                     'type' => true,
                     'active'=> true,
                 ];
-            } else {
-                $result = [
-                    'type' => true,
-                    'active'=> false,
-                ];
-            }
         } else {
             $result = [
                 'type' => false,
@@ -61,10 +58,10 @@ class UserService
                 'user_id' => $user->id,
                 'type' => 'register'
             ];
-            $token = $this->tokenRepository->create($dataToken);
-            Mail::to($user->email)->send(new MailNotify([
-                'url' => route('admin.verify', $token->value),
-            ]));
+            // $token = $this->tokenRepository->create($dataToken);
+            // Mail::to($user->email)->send(new MailNotify([
+            //     'url' => route('admin.verify', $token->value),
+            // ]));
             $result = true;
             DB::commit();
             return $result;
@@ -105,6 +102,7 @@ class UserService
 
     public function logOut()
     {
+        $this->cartRepository->emptyCart();
         Auth::logout();
     }
 

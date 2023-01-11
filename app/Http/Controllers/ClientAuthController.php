@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\VerifyChangePasswordRequest;
 use App\Services\UserService;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,7 +30,7 @@ class ClientAuthController extends Controller
         $data = $request->only('username', 'email', 'phone', 'password', 'address');
         $result = $this->userService->register($data);
         if ($result) {
-            return redirect(route('client.view_login'))->with('message', Message::success('Đăng ký tài khoản thành công. Vui lòng xác thực email trước khi đăng nhập.'));
+            return redirect(route('client.view_login'))->with('message', Message::success('Đăng ký tài khoản thành công.'));
         } else {
             return back()->withInput()->with('message', Message::error('Đăng ký tài khoản không thành công'));
         }
