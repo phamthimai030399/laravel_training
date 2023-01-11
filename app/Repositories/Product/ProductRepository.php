@@ -24,6 +24,6 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         if ( isset($params['category_id'])){
             $query->where('category_id' ,  $params['category_id']);
         }
-        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
+        return $query->orderBy('id', 'DESC')->paginate($this->limit_default);
     }
 }

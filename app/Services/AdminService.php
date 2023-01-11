@@ -65,7 +65,6 @@ class AdminService
             ]));
             $result = true;
             DB::commit();
-            return $result;
         } catch (\Throwable $th) {
             DB::rollBack();
             $result = false;

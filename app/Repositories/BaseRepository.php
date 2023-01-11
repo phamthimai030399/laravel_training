@@ -20,7 +20,7 @@ abstract class BaseRepository implements BaseRepositoryInterface
                 }
             }
         }
-        return $query->orderBy($params['orderBy'] ?? 'id', $params['orderDir'] ?? 'DESC')->paginate($params['limit'] ?? $this->limit_default);
+        return $query->orderBy('id', 'DESC')->paginate($this->limit_default);
     }
 
     public function getAll()
