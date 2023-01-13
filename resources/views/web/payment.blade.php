@@ -45,7 +45,7 @@
                             <span class="text-danger">{{ Session::get('message') }}</span>
                         </div>
                     @endif
-                    <button type="submit" class="btn btn-primary">Thanh toán</button>
+                    <button type="submit" class="btn btn-primary">Mua hàng</button>
                 </form>
             </div>
 

@@ -7,6 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    Tạo đơn hàng thành công
+    <p>Cảm ơn quý khách đã mua sắm tại hệ thống thời trang thiết kế Vincy.</p> <br>
+    <p>Mọi thắc mắc phản hồi vui lòng liên hệ: </p>
+    <ul>
+        <li class="contact-1">
+            <b>CÔNG TY TNHH TM & SX HỒ NGUYỄN</b>
+            <br>
+            <b>Địa chỉ:</b>
+            "118/9 Nguyễn Văn Hưởng, P. Thảo Điền, TP. Thủ Đức, TP.HCM"
+        </li>
+        <li class="contact-2">
+            <b>Điện thoại:</b>
+            "0909.411.447"
+        </li>
+        <li class="contact-3">
+            <b>Email:</b>
+            "online@vincy.com.vn"
+        </li>
+    
 </body>
 </html>
